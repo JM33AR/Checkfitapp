@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitCheck — El semáforo de tallas para tu tienda</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111010;
+  --bg: #faf8f5;
+  --warm: #f2ede6;
+  --green: #1a6b3c;
+  --green-light: #d4eddf;
+  --yellow: #92600a;
+  --yellow-light: #fef3dc;
+  --red: #8b1d1d;
+  --red-light: #fde8e8;
+  --muted: #7a7570;
+  --border: rgba(17,16,16,0.1);
+  --accent: #1a6b3c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.2rem 3rem;
+  display: flex; align-items: center; gap: 2rem;
+  background: rgba(250,248,245,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  animation: slideDown 0.6s ease both;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.02em;
+}
+.nav-logo sup {
+  font-size: 0.45em; vertical-align: super;
+  background: var(--green); color: white;
+  padding: 0.1em 0.4em; border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500; letter-spacing: 0.04em;
+}
+
+.nav-links {
+  display: flex; gap: 2rem;
+  font-size: 0.82rem; color: var(--muted);
+}
+.nav-links a { text-decoration: none; color: inherit; transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+
+.nav-cta {
+  margin-left: auto;
+  background: var(--ink); color: white;
+  border: none; border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.8rem; font-family: 'DM Sans', sans-serif;
+  font-weight: 500; cursor: pointer;
+  transition: all 0.2s; letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.nav-cta:hover { background: #333; }
+
+/* ── HERO ── */
+.hero {
+  padding: 10rem 3rem 6rem;
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 480px;
+  gap: 4rem; align-items: center;
+}
+
+.hero-left { animation: fadeUp 0.9s ease 0.2s both; }
+.hero-right { animation: fadeUp 0.9s ease 0.4s both; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--green);
+  margin-bottom: 1.5rem;
+  background: var(--green-light);
+  padding: 0.35rem 0.85rem; border-radius: 999px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 1.0; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 1.5rem;
+}
+
+.hero h1 em {
+  font-style: italic; color: var(--green);
+}
+
+.hero-sub {
+  font-size: 1.05rem; color: var(--muted);
+  line-height: 1.75; max-width: 440px;
+  margin-bottom: 2.5rem;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--ink); color: white;
+  border: none; border-radius: 12px;
+  padding: 0.9rem 2rem; font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
+  text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { background: #333; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.btn-text {
+  font-size: 0.85rem; color: var(--muted);
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; background: none; border: none;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.hero-proof {
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 2.5rem;
+}
+
+.proof-item { }
+.proof-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.03em;
+}
+.proof-label { font-size: 0.73rem; color: var(--muted); margin-top: 0.15rem; }
+
+/* ── WIDGET DEMO (hero right) ── */
+.widget-demo {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.demo-topbar {
+  background: var(--warm);
+  padding: 0.8rem 1.2rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+.demo-dots { display: flex; gap: 5px; }
+.demo-dots span { width: 9px; height: 9px; border-radius: 50%; }
+.demo-dots span:nth-child(1) { background: #ff5f57; }
+.demo-dots span:nth-child(2) { background: #febc2e; }
+.demo-dots span:nth-child(3) { background: #28c840; }
+.demo-url {
+  flex: 1; background: white;
+  border-radius: 5px; padding: 0.25rem 0.7rem;
+  font-size: 0.68rem; color: #aaa; text-align: center;
+}
+
+.demo-product {
+  padding: 1.5rem;
+  display: grid; grid-template-columns: 100px 1fr;
+  gap: 1rem; border-bottom: 1px solid #f5f5f5;
+}
+
+.demo-img {
+  background: var(--warm);
+  border-radius: 12px; aspect-ratio: 3/4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+
+.demo-info { display: flex; flex-direction: column; gap: 0.4rem; }
+.demo-brand { font-size: 0.62rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; }
+.demo-name { font-weight: 600; font-size: 0.9rem; color: var(--ink); line-height: 1.2; }
+.demo-price { font-size: 1rem; color: var(--ink); font-family: 'Playfair Display', serif; }
+.demo-sizes { display: flex; gap: 0.3rem; margin-top: 0.3rem; }
+.demo-sz {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; color: #666;
+}
+.demo-sz.sel { background: var(--ink); color: white; border-color: var(--ink); }
+
+/* THE PILL */
+.demo-fitcheck { padding: 0 1.5rem 0.5rem; }
+
+.demo-pill {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 0.85rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 500;
+  border: 1.5px solid #86efac;
+  background: #f0faf4; color: #15803d;
+  margin-bottom: 0.8rem;
+  animation: pillBounce 0.5s ease 1s both;
+  cursor: pointer;
+}
+@keyframes pillBounce {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pill-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e;
+  animation: pillPulse 2s ease infinite;
+}
+@keyframes pillPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* mini panel */
+.demo-mini-panel {
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  animation: panelIn 0.4s ease 1.5s both;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mini-header {
+  display: flex; align-items: center; gap: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+.mini-score {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #f0faf4; border: 2.5px solid #22c55e;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem; color: #15803d;
+  flex-shrink: 0;
+}
+.mini-title { font-weight: 600; font-size: 0.82rem; color: var(--ink); }
+.mini-sub { font-size: 0.68rem; color: #888; margin-top: 0.1rem; }
+
+.mini-zones { display: flex; flex-direction: column; gap: 0.4rem; }
+.mini-zone { display: flex; align-items: center; gap: 0.6rem; }
+.mini-zname { font-size: 0.68rem; color: #888; width: 60px; flex-shrink: 0; }
+.mini-bar { flex: 1; height: 4px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
+.mini-fill { height: 100%; border-radius: 99px; }
+.mini-zval { font-size: 0.62rem; font-weight: 600; color: #15803d; width: 48px; text-align: right; }
+
+/* ── LOGOS ── */
+.logos-bar {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1.8rem 3rem;
+  display: flex; align-items: center;
+  justify-content: center; gap: 4rem;
+  background: var(--warm);
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+
+.logos-label {
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--muted);
+  flex-shrink: 0;
+}
+
+.logo-item {
+  font-weight: 700; font-size: 1rem;
+  color: #bbb; letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+.logo-item:hover { color: var(--ink); }
+
+/* ── HOW IT WORKS ── */
+.section {
+  padding: 7rem 3rem;
+  max-width: 1200px; margin: 0 auto;
+}
+
+.section-eyebrow {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--green);
+  margin-bottom: 0.8rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  letter-spacing: -0.03em; line-height: 1.1;
+  margin-bottom: 1rem; color: var(--ink);
+}
+
+.section-sub {
+  font-size: 1rem; color: var(--muted);
+  line-height: 1.7; max-width: 520px;
+}
+
+.how-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2px; margin-top: 4rem;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+}
+
+.how-card {
+  background: var(--bg);
+  padding: 2.5rem 2rem;
+  transition: background 0.2s;
+}
+.how-card:hover { background: var(--warm); }
+
+.how-step {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem; font-weight: 400;
+  color: var(--border); line-height: 1;
+  margin-bottom: 1.2rem;
+}
+
+.how-icon {
+  font-size: 1.8rem; margin-bottom: 1rem;
+}
+
+.how-h {
+  font-weight: 600; font-size: 1rem;
+  margin-bottom: 0.5rem; color: var(--ink);
+}
+.how-p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+.code-snippet {
+  background: var(--ink); color: #a8e6c0;
+  border-radius: 10px; padding: 0.8rem 1rem;
+  font-size: 0.72rem; font-family: monospace;
+  margin-top: 1rem; line-height: 1.6;
+}
+.code-comment { color: #556; }
+
+/* ── SEMÁFORO SECTION ── */
+.semaforo-section {
+  background: var(--ink);
+  padding: 7rem 3rem;
+  color: white;
+}
+
+.semaforo-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+
+.sem-eyebrow {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.12em; color: #22c55e;
+  margin-bottom: 0.8rem;
+}
+.sem-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  letter-spacing: -0.03em; line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+.sem-sub {
+  font-size: 0.9rem; color: rgba(255,255,255,0.5);
+  line-height: 1.75; margin-bottom: 2rem;
+}
+
+.sem-states {
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+
+.sem-state {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  transition: all 0.2s; cursor: default;
+}
+.sem-state:hover { background: rgba(255,255,255,0.06); }
+
+.sem-dot {
+  width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+}
+.sem-state.green .sem-dot { background: #22c55e; box-shadow: 0 0 12px rgba(34,197,94,0.5); }
+.sem-state.yellow .sem-dot { background: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.5); }
+.sem-state.red .sem-dot { background: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
+
+.sem-text { flex: 1; }
+.sem-label { font-size: 0.78rem; font-weight: 600; margin-bottom: 0.15rem; }
+.sem-state.green .sem-label { color: #22c55e; }
+.sem-state.yellow .sem-label { color: #f59e0b; }
+.sem-state.red .sem-label { color: #ef4444; }
+.sem-desc { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+/* right side visual */
+.sem-visual {
+  display: flex; flex-direction: column; gap: 1rem;
+}
+
+.sem-pill-demo {
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+
+.spill {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1rem; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 500;
+  width: fit-content;
+  animation: fadeUp 0.6s ease both;
+}
+.spill:nth-child(2) { animation-delay: 0.15s; }
+.spill:nth-child(3) { animation-delay: 0.3s; }
+
+.spill.green { background: rgba(34,197,94,0.12); border: 1.5px solid rgba(34,197,94,0.35); color: #22c55e; }
+.spill.yellow { background: rgba(245,158,11,0.12); border: 1.5px solid rgba(245,158,11,0.35); color: #f59e0b; }
+.spill.red { background: rgba(239,68,68,0.12); border: 1.5px solid rgba(239,68,68,0.35); color: #ef4444; }
+
+.spill-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+.sem-context {
+  font-size: 0.68rem; color: rgba(255,255,255,0.2);
+  padding: 0.5rem 0; border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── IMPACT ── */
+.impact-section {
+  padding: 7rem 3rem;
+  background: var(--warm);
+}
+
+.impact-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+
+.impact-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1.5rem; margin-top: 4rem;
+}
+
+.impact-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.8rem;
+  transition: transform 0.2s;
+}
+.impact-card:hover { transform: translateY(-3px); }
+
+.impact-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.04em;
+  line-height: 1;
+}
+.impact-num span { color: var(--green); }
+.impact-desc {
+  font-size: 0.78rem; color: var(--muted);
+  margin-top: 0.5rem; line-height: 1.5;
+}
+
+/* ── SIGNUP ── */
+.signup-section {
+  padding: 7rem 3rem;
+  max-width: 700px; margin: 0 auto;
+  text-align: center;
+}
+
+.signup-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  letter-spacing: -0.03em; line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.signup-title em { font-style: italic; color: var(--green); }
+
+.signup-sub {
+  font-size: 0.9rem; color: var(--muted);
+  line-height: 1.7; margin-bottom: 2.5rem;
+}
+
+.signup-form {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 2.5rem;
+  text-align: left;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+}
+
+.form-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-bottom: 1rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+.field label { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+.field input, .field select {
+  background: var(--warm);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.7rem 0.9rem;
+  font-size: 0.85rem; color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  outline: none; transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus { border-color: var(--ink); }
+.field.full { grid-column: 1 / -1; }
+
+.submit-btn {
+  width: 100%; background: var(--ink); color: white;
+  border: none; border-radius: 12px;
+  padding: 1rem; font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; margin-top: 1rem;
+  transition: all 0.2s; letter-spacing: 0.02em;
+}
+.submit-btn:hover { background: #333; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+
+.form-note {
+  text-align: center; font-size: 0.7rem;
+  color: var(--muted); margin-top: 1rem;
+}
+
+.success-msg {
+  display: none; text-align: center;
+  padding: 2rem;
+}
+.success-msg .check { font-size: 3rem; margin-bottom: 1rem; }
+.success-msg h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem; margin-bottom: 0.5rem;
+}
+.success-msg p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.4);
+  padding: 2.5rem 3rem;
+  display: flex; align-items: center;
+  justify-content: space-between; font-size: 0.75rem;
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700; font-size: 1.2rem; color: white;
+}
+
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+
+/* responsive */
+@media(max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; }
+  .hero-right { display: none; }
+  .how-grid { grid-template-columns: 1fr; }
+  .semaforo-inner { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  .logos-bar { gap: 2rem; flex-wrap: wrap; }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .section { padding: 5rem 1.5rem; }
+  footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">FitCheck<sup>beta</sup></div>
+  <div class="nav-links">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#impacto">Impacto</a>
+    <a href="#registro">Precios</a>
+  </div>
+  <a class="nav-cta" href="#registro">Instalar en mi tienda →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Widget de compatibilidad de tallas</div>
+    <h1>Tu cliente sabe si le queda<br><em>antes</em> de comprar.</h1>
+    <p class="hero-sub">
+      FitCheck agrega un semáforo inteligente a cada prenda de tu tienda. Verde, amarillo o rojo. Sin fotos, sin avatares, sin fricción. Solo la respuesta que tu cliente necesita.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#registro">Instalar gratis — 5 minutos</a>
+      <button class="btn-text" onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">Ver cómo funciona</button>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item">
+        <div class="proof-num">73%</div>
+        <div class="proof-label">menos devoluciones</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">2.1×</div>
+        <div class="proof-label">más conversión</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">1 línea</div>
+        <div class="proof-label">de código para instalar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="widget-demo">
+      <div class="demo-topbar">
+        <div class="demo-dots"><span></span><span></span><span></span></div>
+        <div class="demo-url">tushop.com/camisa-oxford</div>
+      </div>
+      <div class="demo-product">
+        <div class="demo-img">👔</div>
+        <div class="demo-info">
+          <div class="demo-brand">Zara</div>
+          <div class="demo-name">Camisa Oxford<br>Slim Fit</div>
+          <div class="demo-price">$850</div>
+          <div class="demo-sizes">
+            <div class="demo-sz">XS</div>
+            <div class="demo-sz sel">M</div>
+            <div class="demo-sz">L</div>
+            <div class="demo-sz">XL</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-fitcheck">
+        <div style="height:0.8rem"></div>
+        <div class="demo-pill">
+          <div class="pill-dot"></div>
+          Te queda perfecto · Talla M ▾
+        </div>
+        <div class="demo-mini-panel">
+          <div class="mini-header">
+            <div class="mini-score">92%</div>
+            <div>
+              <div class="mini-title">Excelente ajuste</div>
+              <div class="mini-sub">El elastano da margen extra</div>
+            </div>
+          </div>
+          <div class="mini-zones">
+            <div class="mini-zone">
+              <div class="mini-zname">Pecho</div>
+              <div class="mini-bar"><div class="mini-fill" style="width:90%;background:#22c55e"></div></div>
+              <div class="mini-zval">+2 cm</div>
+            </div>
+            <div class="mini-zone">
+              <div class="mini-zname">Hombros</div>
+              <div class="mini-bar"><div class="mini-fill" style="width:95%;background:#22c55e"></div></div>
+              <div class="mini-zval">Exacto</div>
+            </div>
+            <div class="mini-zone">
+              <div class="mini-zname">Manga</div>
+              <div class="mini-bar"><div class="mini-fill" style="width:85%;background:#f59e0b"></div></div>
+              <div class="mini-zval">-1 cm</div>
+            </div>
+          </div>
+        </div>
+        <div style="height:1rem"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos-bar">
+  <div class="logos-label">Compatible con</div>
+  <div class="logo-item">Shopify</div>
+  <div class="logo-item">WooCommerce</div>
+  <div class="logo-item">Mercado Libre</div>
+  <div class="logo-item">Tiendanube</div>
+  <div class="logo-item">VTEX</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="como-funciona">
+  <div class="section-eyebrow">Instalación</div>
+  <div class="section-title">Tres pasos.<br>Una sola tarde.</div>
+  <div class="section-sub">No necesitas desarrolladores. No necesitas cambiar tu tienda. Solo agregar las medidas de tus prendas y una línea de código.</div>
+
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-step">01</div>
+      <div class="how-icon">📋</div>
+      <div class="how-h">Agrega medidas a tus productos</div>
+      <p class="how-p">En tu panel de FitCheck, ingresa las medidas reales de cada prenda: pecho, hombros, cintura, largo. Las tiendas que ya las publican las importan en segundos.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-step">02</div>
+      <div class="how-icon">⚡</div>
+      <div class="how-h">Pega una línea de código</div>
+      <p class="how-p">Copia el snippet en el tema de tu tienda. El widget aparece automáticamente en cada página de producto.</p>
+      <div class="code-snippet">
+        <div class="code-comment">// Pega esto en tu tema</div>
+        &lt;script src="fitcheck.io/w.js"<br>
+        &nbsp;&nbsp;data-key="tu-api-key"&gt;<br>
+        &lt;/script&gt;
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-step">03</div>
+      <div class="how-icon">🟢</div>
+      <div class="how-h">El semáforo aparece solo</div>
+      <p class="how-p">Cada cliente ve el semáforo calibrado a su cuerpo. Verde, amarillo o rojo. Si hace clic, ve el detalle por zona y alternativas si la prenda no le queda.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEMÁFORO -->
+<section class="semaforo-section">
+  <div class="semaforo-inner">
+    <div>
+      <div class="sem-eyebrow">El semáforo</div>
+      <div class="sem-title">Simple para el cliente.<br>Poderoso por dentro.</div>
+      <p class="sem-sub">El cliente no quiere leer tablas de tallas. Quiere saber si le va a quedar. FitCheck analiza cada zona del cuerpo y lo resume en un color.</p>
+      <div class="sem-states">
+        <div class="sem-state green">
+          <div class="sem-dot"></div>
+          <div class="sem-text">
+            <div class="sem-label">Verde — Te queda perfecto</div>
+            <div class="sem-desc">Todas las zonas dentro del rango ideal. Compra con confianza.</div>
+          </div>
+        </div>
+        <div class="sem-state yellow">
+          <div class="sem-dot"></div>
+          <div class="sem-text">
+            <div class="sem-label">Amarillo — Ojo con una zona</div>
+            <div class="sem-desc">Puede que los hombros queden un poco anchos, o la cintura ajustada. Se explica en detalle.</div>
+          </div>
+        </div>
+        <div class="sem-state red">
+          <div class="sem-dot"></div>
+          <div class="sem-text">
+            <div class="sem-label">Rojo — No es tu talla</div>
+            <div class="sem-desc">La prenda no va a quedar bien. FitCheck sugiere alternativas similares que sí le quedan.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sem-visual">
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:0.5rem">Así lo ve tu cliente en la página del producto</div>
+      <div class="sem-pill-demo">
+        <div class="spill green"><div class="spill-dot"></div> Te queda perfecto · Talla M ▾</div>
+        <div class="spill yellow"><div class="spill-dot"></div> Hombros un poco anchos · ver detalle ▾</div>
+        <div class="spill red"><div class="spill-dot"></div> No es tu talla · ver alternativas ▾</div>
+      </div>
+      <div class="sem-context">El cliente ingresa sus medidas una sola vez. Después funciona en todas tus prendas automáticamente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIVE DEMO SECTION ── -->
+<section style="padding:7rem 3rem;background:var(--bg);max-width:1200px;margin:0 auto" id="demo-vivo">
+  <div style="text-align:center;margin-bottom:3.5rem">
+    <div class="section-eyebrow" style="display:block;text-align:center">Demo en vivo</div>
+    <div class="section-title" style="text-align:center">Pruébalo tú mismo.<br>Pasa el cursor por cada prenda.</div>
+    <p style="color:var(--muted);font-size:0.9rem;margin-top:0.8rem">Tres prendas, tres situaciones reales. Así lo ve tu cliente.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:start">
+
+    <!-- PRENDA 1: VERDE -->
+    <div class="demo-product-card" id="card-green" onmouseenter="showTooltip('green')" onmouseleave="hideTooltip('green')">
+      <div class="dpc-img" style="background:linear-gradient(160deg,#e8f4ed,#c8e6d4)">
+        <span style="font-size:3.5rem">👔</span>
+        <div class="dpc-pill green-pill">
+          <div class="dpc-dot" style="background:#22c55e"></div>
+          Te queda perfecto
+        </div>
+      </div>
+      <div class="dpc-info">
+        <div class="dpc-brand">Zara · Talla M</div>
+        <div class="dpc-name">Camisa Oxford Slim</div>
+        <div class="dpc-price">$850</div>
+      </div>
+      <!-- TOOLTIP VERDE -->
+      <div class="dpc-tooltip green-tooltip" id="tooltip-green">
+        <div class="tt-header green-header">
+          <div class="tt-score" style="color:#15803d;border-color:#86efac;background:#f0fdf4">92%</div>
+          <div>
+            <div class="tt-title">Excelente ajuste ✓</div>
+            <div class="tt-sub">Todas las zonas dentro del rango ideal</div>
+          </div>
+        </div>
+        <div class="tt-zones">
+          <div class="tt-zone">
+            <span class="tt-zname">Pecho</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:90%;background:#22c55e"></div></div>
+            <span class="tt-zval" style="color:#15803d">+2 cm</span>
+          </div>
+          <div class="tt-zone">
+            <span class="tt-zname">Hombros</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:96%;background:#22c55e"></div></div>
+            <span class="tt-zval" style="color:#15803d">Exacto</span>
+          </div>
+          <div class="tt-zone">
+            <span class="tt-zname">Manga</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:88%;background:#22c55e"></div></div>
+            <span class="tt-zval" style="color:#15803d">+1 cm</span>
+          </div>
+        </div>
+        <div class="tt-note">🧵 El elastano da margen extra — quedará cómodo sin verse holgado.</div>
+      </div>
+    </div>
+
+    <!-- PRENDA 2: AMARILLO -->
+    <div class="demo-product-card" id="card-yellow" onmouseenter="showTooltip('yellow')" onmouseleave="hideTooltip('yellow')">
+      <div class="dpc-img" style="background:linear-gradient(160deg,#fef9e7,#fde68a)">
+        <span style="font-size:3.5rem">🧥</span>
+        <div class="dpc-pill yellow-pill">
+          <div class="dpc-dot" style="background:#f59e0b"></div>
+          Ojo con los hombros
+        </div>
+      </div>
+      <div class="dpc-info">
+        <div class="dpc-brand">H&M · Talla M</div>
+        <div class="dpc-name">Chaqueta Casual Beige</div>
+        <div class="dpc-price">$1,250</div>
+      </div>
+      <!-- TOOLTIP AMARILLO -->
+      <div class="dpc-tooltip yellow-tooltip" id="tooltip-yellow">
+        <div class="tt-header yellow-header">
+          <div class="tt-score" style="color:#92400e;border-color:#fcd34d;background:#fffbeb">71%</div>
+          <div>
+            <div class="tt-title">Ajuste aceptable ⚠</div>
+            <div class="tt-sub">Una zona necesita atención</div>
+          </div>
+        </div>
+        <div class="tt-zones">
+          <div class="tt-zone">
+            <span class="tt-zname">Pecho</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:85%;background:#22c55e"></div></div>
+            <span class="tt-zval" style="color:#15803d">OK</span>
+          </div>
+          <div class="tt-zone">
+            <span class="tt-zname">Hombros</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:45%;background:#f59e0b"></div></div>
+            <span class="tt-zval" style="color:#92400e">+4 cm</span>
+          </div>
+          <div class="tt-zone">
+            <span class="tt-zname">Manga</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:80%;background:#22c55e"></div></div>
+            <span class="tt-zval" style="color:#15803d">+1 cm</span>
+          </div>
+        </div>
+        <div class="tt-note">⚠️ Los hombros quedarán 4 cm más anchos de lo ideal. Si buscas un look oversize, puede funcionar. Si no, considera la talla S.</div>
+      </div>
+    </div>
+
+    <!-- PRENDA 3: ROJO + ALTERNATIVAS -->
+    <div class="demo-product-card" id="card-red" onmouseenter="showTooltip('red')" onmouseleave="hideTooltip('red')">
+      <div class="dpc-img" style="background:linear-gradient(160deg,#fef2f2,#fecaca)">
+        <span style="font-size:3.5rem">👖</span>
+        <div class="dpc-pill red-pill">
+          <div class="dpc-dot" style="background:#ef4444"></div>
+          No es tu talla
+        </div>
+      </div>
+      <div class="dpc-info">
+        <div class="dpc-brand">Levi's · Talla 32</div>
+        <div class="dpc-name">Jean Skinny Azul</div>
+        <div class="dpc-price">$1,499</div>
+      </div>
+      <!-- TOOLTIP ROJO + ALTERNATIVAS -->
+      <div class="dpc-tooltip red-tooltip" id="tooltip-red" style="width:300px">
+        <div class="tt-header red-header">
+          <div class="tt-score" style="color:#b91c1c;border-color:#fca5a5;background:#fff1f2">38%</div>
+          <div>
+            <div class="tt-title">No te va a quedar ✗</div>
+            <div class="tt-sub">Dos zonas con problema serio</div>
+          </div>
+        </div>
+        <div class="tt-zones">
+          <div class="tt-zone">
+            <span class="tt-zname">Cintura</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:25%;background:#ef4444"></div></div>
+            <span class="tt-zval" style="color:#b91c1c">−6 cm</span>
+          </div>
+          <div class="tt-zone">
+            <span class="tt-zname">Cadera</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:30%;background:#ef4444"></div></div>
+            <span class="tt-zval" style="color:#b91c1c">−5 cm</span>
+          </div>
+          <div class="tt-zone">
+            <span class="tt-zname">Muslo</span>
+            <div class="tt-bar"><div class="tt-fill" style="width:20%;background:#ef4444"></div></div>
+            <span class="tt-zval" style="color:#b91c1c">−4 cm</span>
+          </div>
+        </div>
+        <div class="tt-note" style="border-color:#fca5a5;background:#fff1f2;color:#b91c1c">🚫 El corte Skinny es demasiado ajustado para tus medidas. Te costará ponértelo.</div>
+        <div class="tt-alts-title">Opciones que sí te quedarían bien</div>
+        <div class="tt-alts">
+          <div class="tt-alt">
+            <span class="tt-alt-emoji">👖</span>
+            <div>
+              <div class="tt-alt-name">Jean Straight Leg</div>
+              <div class="tt-alt-why">Mismo largo, cintura cómoda</div>
+            </div>
+            <div class="tt-alt-badge">✓ Verde</div>
+          </div>
+          <div class="tt-alt">
+            <span class="tt-alt-emoji">👖</span>
+            <div>
+              <div class="tt-alt-name">Jean Regular Fit 34</div>
+              <div class="tt-alt-why">Más holgado, mejor ajuste</div>
+            </div>
+            <div class="tt-alt-badge">✓ Verde</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ── DEMO PRODUCT CARDS ── */
+.demo-product-card {
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: visible;
+  cursor: default;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.demo-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.dpc-img {
+  border-radius: 16px 16px 0 0;
+  aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+
+.dpc-pill {
+  position: absolute; bottom: 0.8rem; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 0.9rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.dpc-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+.green-pill { background: rgba(240,250,244,0.95); color: #15803d; border: 1px solid #86efac; }
+.yellow-pill { background: rgba(255,251,235,0.95); color: #92400e; border: 1px solid #fcd34d; }
+.red-pill { background: rgba(255,241,242,0.95); color: #b91c1c; border: 1px solid #fca5a5; }
+
+.dpc-info { padding: 1rem 1.2rem 1.2rem; }
+.dpc-brand { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.dpc-name { font-weight: 600; font-size: 0.95rem; color: var(--ink); margin: 0.2rem 0; }
+.dpc-price { font-size: 1rem; color: var(--ink); }
+
+/* ── TOOLTIPS ── */
+.dpc-tooltip {
+  position: absolute;
+  top: 0; left: calc(100% + 12px);
+  width: 260px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.07);
+  padding: 1.1rem;
+  z-index: 100;
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* last card tooltip goes left */
+#card-red .dpc-tooltip {
+  left: auto; right: calc(100% + 12px);
+  transform: translateX(-6px);
+}
+
+.dpc-tooltip.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+#card-red .dpc-tooltip.visible {
+  transform: translateX(0);
+}
+
+.tt-header {
+  display: flex; align-items: center; gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tt-score {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 2px solid; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700;
+}
+
+.tt-title { font-size: 0.82rem; font-weight: 600; color: #111; }
+.tt-sub { font-size: 0.65rem; color: #aaa; margin-top: 0.1rem; }
+
+.tt-zones { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.8rem; }
+
+.tt-zone { display: flex; align-items: center; gap: 0.5rem; }
+.tt-zname { font-size: 0.65rem; color: #888; width: 55px; flex-shrink: 0; }
+.tt-bar { flex: 1; height: 4px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
+.tt-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+.tt-zval { font-size: 0.65rem; font-weight: 600; width: 40px; text-align: right; flex-shrink: 0; }
+
+.tt-note {
+  font-size: 0.7rem; line-height: 1.5; color: #555;
+  background: #f9f9f7; border: 1px solid #eee;
+  border-radius: 8px; padding: 0.6rem 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Alternativas */
+.tt-alts-title {
+  font-size: 0.6rem; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #bbb;
+  margin-bottom: 0.5rem;
+}
+.tt-alts { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.tt-alt {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  background: #f0fdf4; border: 1px solid #86efac;
+  border-radius: 8px; cursor: pointer;
+  transition: background 0.15s;
+}
+.tt-alt:hover { background: #dcfce7; }
+
+.tt-alt-emoji { font-size: 1.1rem; flex-shrink: 0; }
+.tt-alt-name { font-size: 0.72rem; font-weight: 600; color: #111; }
+.tt-alt-why { font-size: 0.62rem; color: #888; }
+.tt-alt-badge {
+  margin-left: auto; flex-shrink: 0;
+  background: #15803d; color: white;
+  font-size: 0.58rem; font-weight: 700;
+  border-radius: 999px; padding: 0.15rem 0.45rem;
+}
+
+@media(max-width:900px) {
+  #demo-vivo > div:last-child { grid-template-columns: 1fr; }
+  .dpc-tooltip { left: 0; right: 0; top: calc(100% + 8px); width: 100% !important; transform: translateY(4px) !important; }
+  .dpc-tooltip.visible { transform: translateY(0) !important; }
+}
+</style>
+
+<script>
+function showTooltip(color) {
+  const tt = document.getElementById('tooltip-' + color);
+  tt.classList.add('visible');
+}
+function hideTooltip(color) {
+  const tt = document.getElementById('tooltip-' + color);
+  tt.classList.remove('visible');
+}
+</script>
+
+<!-- IMPACT -->
+<section class="impact-section" id="impacto">
+  <div class="impact-inner">
+    <div class="section-eyebrow">Por qué importa</div>
+    <div class="section-title">Cada devolución<br>te cuesta dinero.</div>
+
+    <div class="impact-grid">
+      <div class="impact-card">
+        <div class="impact-num">40<span>%</span></div>
+        <div class="impact-desc">de devoluciones online son por talla incorrecta</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">73<span>%</span></div>
+        <div class="impact-desc">reducción en devoluciones con prueba de compatibilidad</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">2.1<span>×</span></div>
+        <div class="impact-desc">más conversión cuando el cliente confía en la talla</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">$0</div>
+        <div class="impact-desc">costo de instalación. Gratis hasta 500 análisis por mes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup-section" id="registro">
+  <div class="section-eyebrow" style="text-align:center;display:block">Acceso anticipado</div>
+  <div class="signup-title">Instala FitCheck<br>en tu tienda <em>gratis.</em></div>
+  <p class="signup-sub">Estamos en beta. Las primeras 50 tiendas que se registren tienen acceso gratuito por 6 meses y un onboarding personalizado.</p>
+
+  <div class="signup-form" id="signupForm">
+    <div class="form-grid">
+      <div class="field">
+        <label>Nombre</label>
+        <input type="text" id="f_nombre" placeholder="Tu nombre">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="f_email" placeholder="tu@tienda.com">
+      </div>
+      <div class="field">
+        <label>Nombre de tu tienda</label>
+        <input type="text" id="f_tienda" placeholder="Mi tienda de ropa">
+      </div>
+      <div class="field">
+        <label>Plataforma</label>
+        <select id="f_plat">
+          <option value="">Seleccionar…</option>
+          <option>Shopify</option>
+          <option>WooCommerce</option>
+          <option>Mercado Libre</option>
+          <option>Tiendanube</option>
+          <option>VTEX</option>
+          <option>Otra</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>URL de tu tienda</label>
+        <input type="text" id="f_url" placeholder="https://mitienda.com">
+      </div>
+    </div>
+    <button class="submit-btn" onclick="submitForm()">Quiero instalar FitCheck →</button>
+    <div class="form-note">Sin tarjeta de crédito · Instalación en 5 minutos · Cancela cuando quieras</div>
+  </div>
+
+  <div class="success-msg" id="successMsg">
+    <div class="check">✅</div>
+    <h3>¡Listo! Estás en la lista.</h3>
+    <p>Te contactaremos en menos de 24 horas con tus credenciales de acceso y te acompañamos en la instalación. Bienvenido a FitCheck.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FitCheck</div>
+  <div class="footer-links">
+    <a href="#">Documentación</a>
+    <a href="#">Privacidad</a>
+    <a href="#">Contacto</a>
+  </div>
+  <div>© 2025 FitCheck · hecho con IA</div>
+</footer>
+
+<script>
+function submitForm() {
+  const nombre = document.getElementById('f_nombre').value.trim();
+  const email = document.getElementById('f_email').value.trim();
+  const tienda = document.getElementById('f_tienda').value.trim();
+
+  if (!nombre || !email || !tienda) {
+    alert('Por favor completa nombre, email y nombre de tu tienda.');
+    return;
+  }
+
+  if (!email.includes('@')) {
+    alert('Ingresa un email válido.');
+    return;
+  }
+
+  // Save to localStorage as demo
+  const leads = JSON.parse(localStorage.getItem('fitcheck_leads') || '[]');
+  leads.push({
+    nombre,
+    email,
+    tienda,
+    plataforma: document.getElementById('f_plat').value,
+    url: document.getElementById('f_url').value,
+    fecha: new Date().toISOString()
+  });
+  localStorage.setItem('fitcheck_leads', JSON.stringify(leads));
+
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
+
+// smooth scroll for nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
