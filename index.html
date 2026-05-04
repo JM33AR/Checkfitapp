@@ -1191,49 +1191,20 @@ function submitForm() {
     return;
   }
 
-  // Guardar datos en localStorage para recuperarlos después del callback
-  const lead = { nombre, email, tienda, plataforma, url, fecha: new Date().toISOString() };
-  localStorage.setItem('fitcheck_lead', JSON.stringify(lead));
+  localStorage.setItem('fitcheck_lead', JSON.stringify({ nombre, email, tienda, plataforma, url, fecha: new Date().toISOString() }));
 
-  // Si eligió Mercado Libre → OAuth real
   if (plataforma === 'Mercado Libre') {
-    const ML_APP_ID = '6372898769706257';
-    const REDIRECT_URI = 'https://checkfitapp.vercel.app/api/auth/callback';
-    const STATE = Math.random().toString(36).substring(2); // anti-CSRF
+    const STATE = Math.random().toString(36).substring(2);
     localStorage.setItem('ml_oauth_state', STATE);
-
-    const authURL = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${ML_APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${STATE}`;
-
-    window.location.href = authURL;
+    window.location.href = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=6372898769706257&redirect_uri=${encodeURIComponent('https://checkfitapp.vercel.app/api/auth/callback')}&state=${STATE}`;
     return;
   }
 
-  // Otras plataformas → mensaje de éxito normal
   document.getElementById('signupForm').style.display = 'none';
   document.getElementById('successMsg').style.display = 'block';
 }
 
-
-  if (!email.includes('@')) {
-    alert('Ingresa un email válido.');
-    return;
-  }
-
-  // Save to localStorage as demo
-  const leads = JSON.parse(localStorage.getItem('fitcheck_leads') || '[]');
-  leads.push({
-    nombre,
-    email,
-    tienda,
-    plataforma: document.getElementById('f_plat').value,
-    url: document.getElementById('f_url').value,
-    fecha: new Date().toISOString()
-  });
-  localStorage.setItem('fitcheck_leads', JSON.stringify(leads));
-
-  document.getElementById('signupForm').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
-}
+  
 
 // smooth scroll for nav
 document.querySelectorAll('a[href^="#"]').forEach(a => {
