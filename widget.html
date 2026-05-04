@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget FitCheck</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background-color: #ffffff;
+            color: #333;
+        }
+        .widget-container {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 1px #3182ce;
+        }
+        button {
+            width: 100%;
+            background-color: #2b6cb0;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2c5282;
+        }
+        #resultado {
+            margin-top: 14px;
+            padding: 10px;
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+            color: #2b6cb0;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="widget-container">
+    <h2>Encontrá tu talle ideal</h2>
+    
+    <div class="form-group">
+        <label for="pecho">Contorno de pecho (cm):</label>
+        <input type="number" id="pecho" placeholder="Ej. 90" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="cintura">Contorno de cintura (cm):</label>
+        <input type="number" id="cintura" placeholder="Ej. 72" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="cadera">Contorno de cadera (cm):</label>
+        <input type="number" id="cadera" placeholder="Ej. 96" required>
+    </div>
+    
+    <button onclick="calcularTalle()">Calcular mi talle</button>
+
+    <div id="resultado"></div>
+</div>
+
+<script>
+    function calcularTalle() {
+        const pecho = parseFloat(document.getElementById('pecho').value);
+        const cintura = parseFloat(document.getElementById('cintura').value);
+        const cadera = parseFloat(document.getElementById('cadera').value);
+        
+        const resultadoDiv = document.getElementById('resultado');
+
+        if (isNaN(pecho) || isNaN(cintura) || isNaN(cadera)) {
+            resultadoDiv.style.display = 'block';
+            resultadoDiv.style.borderColor = '#e53e3e';
+            resultadoDiv.style.color = '#c53030';
+            resultadoDiv.style.backgroundColor = '#fff5f5';
+            resultadoDiv.innerHTML = "Por favor, completá todos los campos.";
+            return;
+        }
+
+        let talleSugerido = "";
+
+        // Lógica simple de recomendación de talles
+        if (pecho <= 88 && cintura <= 68 && cadera <= 92) {
+            talleSugerido = "S";
+        } else if (pecho <= 94 && cintura <= 74 && cadera <= 98) {
+            talleSugerido = "M";
+        } else if (pecho <= 100 && cintura <= 80 && cadera <= 104) {
+            talleSugerido = "L";
+        } else {
+            talleSugerido = "XL";
+        }
+
+        resultadoDiv.style.display = 'block';
+        resultadoDiv.style.borderColor = '#3182ce';
+        resultadoDiv.style.color = '#2b6cb0';
+        resultadoDiv.style.backgroundColor = '#ebf8ff';
+        resultadoDiv.innerHTML = `<strong>¡Talle sugerido: ${talleSugerido}!</strong>`;
+    }
+</script>
+
+</body>
+</html>
