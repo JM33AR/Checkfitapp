@@ -76,6 +76,25 @@
             display: none;
             text-align: center;
         }
+        .alerta-largo {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #fffaf0;
+            border: 1px solid #dd6b20;
+            border-radius: 6px;
+            color: #c05621;
+            font-size: 0.85rem;
+            text-align: left;
+            display: none;
+        }
+        .aviso-generico {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #718096;
+            text-align: center;
+            border-top: 1px solid #edf2f7;
+            padding-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -97,10 +116,30 @@
         <label for="cadera">Contorno de cadera (cm):</label>
         <input type="number" id="cadera" placeholder="Ej. 96" required>
     </div>
+
+    <div class="form-group">
+        <label for="hombros">Ancho de hombros (cm):</label>
+        <input type="number" id="hombros" placeholder="Ej. 38" required>
+    </div>
+
+    <div class="form-group">
+        <label for="pierna">Largo de pierna (cm):</label>
+        <input type="number" id="pierna" placeholder="Ej. 95" required>
+    </div>
+
+    <div class="form-group">
+        <label for="altura">Tu altura (cm):</label>
+        <input type="number" id="altura" placeholder="Ej. 150" required>
+    </div>
     
     <button onclick="calcularTalle()">Calcular mi talle</button>
 
     <div id="resultado"></div>
+    <div id="alertaLargo" class="alerta-largo"></div>
+    
+    <div class="aviso-generico">
+        * Estimación basada en medidas estándar del mercado. ¿Sos fabricante? <a href="mailto:contacto@fitcheck.com" style="color: #2b6cb0;">Contactanos</a> para integrar tus talles reales.
+    </div>
 </div>
 
 <script>
@@ -108,10 +147,17 @@
         const pecho = parseFloat(document.getElementById('pecho').value);
         const cintura = parseFloat(document.getElementById('cintura').value);
         const cadera = parseFloat(document.getElementById('cadera').value);
+        const hombros = parseFloat(document.getElementById('hombros').value);
+        const pierna = parseFloat(document.getElementById('pierna').value);
+        const altura = parseFloat(document.getElementById('altura').value);
         
         const resultadoDiv = document.getElementById('resultado');
+        const alertaDiv = document.getElementById('alertaLargo');
 
-        if (isNaN(pecho) || isNaN(cintura) || isNaN(cadera)) {
+        // Ocultar alertas previas
+        alertaDiv.style.display = 'none';
+
+        if (isNaN(pecho) || isNaN(cintura) || isNaN(cadera) || isNaN(hombros) || isNaN(pierna) || isNaN(altura)) {
             resultadoDiv.style.display = 'block';
             resultadoDiv.style.borderColor = '#e53e3e';
             resultadoDiv.style.color = '#c53030';
@@ -122,15 +168,21 @@
 
         let talleSugerido = "";
 
-        // Lógica simple de recomendación de talles
-        if (pecho <= 88 && cintura <= 68 && cadera <= 92) {
+        // Lógica de recomendación de talles
+        if (pecho <= 88 && cintura <= 68 && cadera <= 92 && hombros <= 38 && pierna <= 98) {
             talleSugerido = "S";
-        } else if (pecho <= 94 && cintura <= 74 && cadera <= 98) {
+        } else if (pecho <= 94 && cintura <= 74 && cadera <= 98 && hombros <= 40 && pierna <= 101) {
             talleSugerido = "M";
-        } else if (pecho <= 100 && cintura <= 80 && cadera <= 104) {
+        } else if (pecho <= 100 && cintura <= 80 && cadera <= 104 && hombros <= 42 && pierna <= 104) {
             talleSugerido = "L";
         } else {
             talleSugerido = "XL";
+        }
+
+        // Lógica de advertencia de largo para personas de baja estatura
+        if (altura <= 155) {
+            alertaDiv.style.display = 'block';
+            alertaDiv.innerHTML = `<strong>Aviso para corte Petite:</strong> Para tu altura (${altura} cm), este talle podría quedarte largo. Te recomendamos buscar la <em>versión Petite</em> o elegir un modelo con bota/ruedo ajustable.`;
         }
 
         resultadoDiv.style.display = 'block';
