@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 const ML_APP_ID = process.env.ML_APP_ID;
 const ML_SECRET = process.env.ML_SECRET;
-const REDIRECT_URI = 'https://checkfitapp.vercel.app/auth/callback';
+const REDIRECT_URI = 'https://checkfitapp.vercel.app/api/auth/callback';
 
 module.exports = async function handler(req, res) {
 
