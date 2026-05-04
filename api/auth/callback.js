@@ -1,12 +1,10 @@
-const fetch = require('node-fetch');
-
 const ML_APP_ID = process.env.ML_APP_ID;
 const ML_SECRET = process.env.ML_SECRET;
 const REDIRECT_URI = 'https://checkfitapp.vercel.app/api/auth/callback';
 
 module.exports = async function handler(req, res) {
 
-  const { code, state, error } = req.query;
+  const { code, error } = req.query;
 
   // 1. ML rechazó la autorización
   if (error) {
@@ -45,9 +43,7 @@ module.exports = async function handler(req, res) {
     });
     const userData = await userRes.json();
 
-    // 5. Redirigir al vendedor con sus datos
-    // En producción guardarías el token en una DB
-    // Por ahora lo pasamos como query param para mostrarlo en el panel
+    // 5. Redirigir con datos del vendedor
     const params = new URLSearchParams({
       ml_connected: 'true',
       seller_id: userData.id,
