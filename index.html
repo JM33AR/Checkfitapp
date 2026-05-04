@@ -1198,7 +1198,7 @@ function submitForm() {
   // Si eligió Mercado Libre → OAuth real
   if (plataforma === 'Mercado Libre') {
     const ML_APP_ID = '6372898769706257';
-    const REDIRECT_URI = 'https://checkfitapp.vercel.app/auth/callback';
+    const REDIRECT_URI = 'https://checkfitapp.vercel.app/api/auth/callback';
     const STATE = Math.random().toString(36).substring(2); // anti-CSRF
     localStorage.setItem('ml_oauth_state', STATE);
 
