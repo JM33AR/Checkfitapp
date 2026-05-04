@@ -20,9 +20,23 @@
             max-width: 100%;
             box-sizing: border-box;
         }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .logo-text {
+            font-weight: 800;
+            color: #2b6cb0;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .logo-text span {
+            color: #2c3e50;
+        }
         h2 {
             color: #2c3e50;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-top: 0;
             margin-bottom: 14px;
             text-align: center;
@@ -100,6 +114,10 @@
 <body>
 
 <div class="widget-container">
+    <div class="logo-container">
+        <div class="logo-text">Fit<span>Check</span></div>
+    </div>
+    
     <h2>Encontrá tu talle ideal</h2>
     
     <div class="form-group">
@@ -138,7 +156,7 @@
     <div id="alertaLargo" class="alerta-largo"></div>
     
     <div class="aviso-generico">
-        * Estimación basada en medidas estándar del mercado. ¿Sos fabricante? <a href="mailto:contacto@fitcheck.com" style="color: #2b6cb0;">Contactanos</a> para integrar tus talles reales.
+        * Estimación basada en medidas estándar. ¿Sos fabricante? <a href="contacto.html" style="color: #2b6cb0;" target="_blank">Contactanos</a> para integrar tus talles reales.
     </div>
 </div>
 
@@ -179,7 +197,7 @@
             talleSugerido = "XL";
         }
 
-        // Lógica de advertencia de largo para personas de baja estatura
+        // Lógica de advertencia de largo
         if (altura <= 155) {
             alertaDiv.style.display = 'block';
             alertaDiv.innerHTML = `<strong>Aviso para corte Petite:</strong> Para tu altura (${altura} cm), este talle podría quedarte largo. Te recomendamos buscar la <em>versión Petite</em> o elegir un modelo con bota/ruedo ajustable.`;
