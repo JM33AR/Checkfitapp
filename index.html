@@ -1178,11 +1178,41 @@ function submitForm() {
   const nombre = document.getElementById('f_nombre').value.trim();
   const email = document.getElementById('f_email').value.trim();
   const tienda = document.getElementById('f_tienda').value.trim();
+  const plataforma = document.getElementById('f_plat').value;
+  const url = document.getElementById('f_url').value.trim();
 
   if (!nombre || !email || !tienda) {
     alert('Por favor completa nombre, email y nombre de tu tienda.');
     return;
   }
+
+  if (!email.includes('@')) {
+    alert('Ingresa un email válido.');
+    return;
+  }
+
+  // Guardar datos en localStorage para recuperarlos después del callback
+  const lead = { nombre, email, tienda, plataforma, url, fecha: new Date().toISOString() };
+  localStorage.setItem('fitcheck_lead', JSON.stringify(lead));
+
+  // Si eligió Mercado Libre → OAuth real
+  if (plataforma === 'Mercado Libre') {
+    const ML_APP_ID = '6372898769706257';
+    const REDIRECT_URI = 'https://checkfitapp.vercel.app/auth/callback';
+    const STATE = Math.random().toString(36).substring(2); // anti-CSRF
+    localStorage.setItem('ml_oauth_state', STATE);
+
+    const authURL = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${ML_APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${STATE}`;
+
+    window.location.href = authURL;
+    return;
+  }
+
+  // Otras plataformas → mensaje de éxito normal
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
+
 
   if (!email.includes('@')) {
     alert('Ingresa un email válido.');
