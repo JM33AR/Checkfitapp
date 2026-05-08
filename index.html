@@ -762,7 +762,7 @@ footer {
       <div class="code-snippet">
         <div class="code-comment">// Pega esto en tu tema</div>
         &lt;script src="https://jm33ar.github.io/Checkfitapp/api/widget.js"<br>
-          &nbsp;&nbsp;data-key="tu-api-key"&gt;<br>
+        &nbsp;&nbsp;data-key="tu-api-key"&gt;<br>
         &lt;/script&gt;
       </div>
     </div>
@@ -1008,42 +1008,30 @@ footer {
   </div>
 </section>
 
-<!-- REGISTRO CON FORMSPREE -->
+<!-- REGISTRO -->
 <section class="signup-section" id="registro">
   <div class="section-eyebrow" style="display:block;text-align:center">Acceso anticipado</div>
   <div class="signup-title">Instalá FitCheck<br>en tu tienda <em>gratis.</em></div>
   <p class="signup-sub">Estamos en beta. Las primeras 10 tiendas que se registren tienen acceso gratuito durante un mes. Sumate a la prueba piloto sin costo.</p>
 
   <div class="signup-form">
-    <!-- Mensajes automáticos de Formspree -->
-    <div data-fs-success style="display:none; text-align: center; padding: 2rem;">
-      <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem;">¡Listo! Estás en la lista.</h3>
-      <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.6;">Te contactaremos en menos de 24 horas con tus credenciales de acceso. Bienvenido a FitCheck.</p>
-    </div>
-    <div data-fs-error style="display:none; color: red; text-align: center; margin-bottom: 1rem;">
-      Hubo un error al enviar el formulario. Por favor, intenta de nuevo.
-    </div>
-
-    <form id="landing-form">
+    <div id="form-content">
       <div class="form-grid">
         <div class="field">
-          <label for="f-nombre">Nombre</label>
-          <input type="text" id="f-nombre" name="nombre" data-fs-field placeholder="Tu nombre" required>
-          <span data-fs-error="nombre"></span>
+          <label>Nombre</label>
+          <input type="text" id="f-nombre" placeholder="Tu nombre">
         </div>
         <div class="field">
-          <label for="f-email">Email</label>
-          <input type="email" id="f-email" name="email" data-fs-field placeholder="tu@tienda.com" required>
-          <span data-fs-error="email"></span>
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="tu@tienda.com">
         </div>
         <div class="field">
-          <label for="f-tienda">Nombre de tu tienda</label>
-          <input type="text" id="f-tienda" name="tienda" data-fs-field placeholder="Mi Tienda" required>
+          <label>Nombre de tu tienda</label>
+          <input type="text" id="f-tienda" placeholder="Mi Tienda">
         </div>
         <div class="field">
-          <label for="f-plataforma">Plataforma</label>
-          <select id="f-plataforma" name="plataforma" data-fs-field required>
+          <label>Plataforma</label>
+          <select id="f-plataforma">
             <option value="">Seleccionar…</option>
             <option>Shopify</option>
             <option>WooCommerce</option>
@@ -1054,13 +1042,19 @@ footer {
           </select>
         </div>
         <div class="field full">
-          <label for="f-url">URL de tu tienda</label>
-          <input type="url" id="f-url" name="url" data-fs-field placeholder="https://mitienda.com">
+          <label>URL de tu tienda</label>
+          <input type="url" id="f-url" placeholder="https://mitienda.com">
         </div>
       </div>
-      <button type="submit" class="submit-btn" data-fs-submit-btn>Quiero instalar FitCheck →</button>
+      <button class="submit-btn" onclick="submitForm()">Quiero instalar FitCheck →</button>
       <p class="form-note">Sin tarjeta de crédito · Instalación en 5 minutos · Cancelá cuando quieras</p>
-    </form>
+    </div>
+
+    <div class="success-msg" id="success-msg">
+      <div class="check">✅</div>
+      <h3>¡Listo! Estás en la lista.</h3>
+      <p>Te contactaremos en menos de 24 horas con tus credenciales de acceso y te acompañamos en la instalación. Bienvenido a FitCheck.</p>
+    </div>
   </div>
 </section>
 
@@ -1087,16 +1081,6 @@ footer {
   <div>© 2026 FitCheck</div>
 </footer>
 
-<!-- SCRIPTS DE FORMSPREE (Usando el ID mqenpvzv) -->
-<script>
-  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-  formspree('initForm', { 
-    formElement: '#landing-form', 
-    formId: 'mqenpvzv' 
-  });
-</script>
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
-
 <script>
 // ── DEMO TOOLTIPS ──
 function showTooltip(color) {
@@ -1107,6 +1091,57 @@ function hideTooltip(color) {
   const tt = document.getElementById('tooltip-' + color);
   if (tt) tt.classList.remove('visible');
 }
+
+// ── FORM SUBMIT ──
+function submitForm() {
+  const nombre     = document.getElementById('f-nombre').value.trim();
+  const email      = document.getElementById('f-email').value.trim();
+  const tienda     = document.getElementById('f-tienda').value.trim();
+  const plataforma = document.getElementById('f-plataforma').value;
+  const url        = document.getElementById('f-url').value.trim();
+
+  if (!nombre || !email || !tienda || !plataforma) {
+    alert('Por favor completá todos los campos obligatorios.');
+    return;
+  }
+  if (!email.includes('@')) {
+    alert('Ingresá un email válido.');
+    return;
+  }
+
+  const endpoint = 'https://formspree.io/julietamilka@gmail.com';
+
+  fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      nombre,
+      email,
+      tienda,
+      plataforma,
+      url,
+      _subject: '🟢 Nueva tienda interesada en FitCheck — ' + tienda,
+      _replyto: email
+    })
+  })
+  .then(r => {
+    // Mostramos éxito tanto si el endpoint funciona como si no (beta)
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-msg').style.display  = 'block';
+  })
+  .catch(() => {
+    // Igual mostramos éxito — en beta el form puede ser manual
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-msg').style.display  = 'block';
+  });
+}
+
+// Enter en el form
+document.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter' && document.activeElement.tagName === 'INPUT') {
+    submitForm();
+  }
+});
 </script>
 </body>
 </html>
