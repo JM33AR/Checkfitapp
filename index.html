@@ -16,7 +16,7 @@
   --yellow-light: #fef3dc;
   --red: #8b1d1d;
   --red-light: #fde8e8;
-  --muted: #5a5550; /* Texto un poco más oscuro para mejor legibilidad */
+  --muted: #5a5550; /* Legibilidad mejorada */
   --border: rgba(17,16,16,0.1);
   --accent: #1a6b3c;
 }
@@ -38,41 +38,29 @@ nav {
   background: rgba(250,248,245,0.85);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  animation: slideDown 0.6s ease both;
-}
-@keyframes slideDown {
-  from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 .nav-logo {
   font-family: 'Playfair Display', serif;
   font-size: 1.4rem; font-weight: 700;
   color: var(--ink); letter-spacing: -0.02em;
+  cursor: pointer;
 }
 .nav-logo sup {
   font-size: 0.45em; vertical-align: super;
   background: var(--green); color: white;
   padding: 0.1em 0.4em; border-radius: 4px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 500; letter-spacing: 0.04em;
 }
-.nav-links {
-  display: flex; gap: 2rem;
-  font-size: 0.82rem; color: var(--muted);
-}
-.nav-links a { text-decoration: none; color: inherit; transition: color 0.2s; }
+.nav-links { display: flex; gap: 2rem; font-size: 0.82rem; }
+.nav-links a { text-decoration: none; color: var(--muted); transition: color 0.2s; }
 .nav-links a:hover { color: var(--ink); }
 .nav-cta {
   margin-left: auto;
   background: var(--ink); color: white;
   border: none; border-radius: 999px;
   padding: 0.55rem 1.4rem;
-  font-size: 0.8rem; font-family: 'DM Sans', sans-serif;
-  font-weight: 500; cursor: pointer;
-  transition: all 0.2s; letter-spacing: 0.02em;
-  text-decoration: none;
+  font-size: 0.8rem; font-weight: 500;
+  cursor: pointer; text-decoration: none;
 }
-.nav-cta:hover { background: #333; }
 
 /* ── HERO ── */
 .hero {
@@ -81,25 +69,11 @@ nav {
   display: grid; grid-template-columns: 1fr 480px;
   gap: 4rem; align-items: center;
 }
-.hero-left { animation: fadeUp 0.9s ease 0.2s both; }
-.hero-right { animation: fadeUp 0.9s ease 0.4s both; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.72rem; text-transform: uppercase;
-  letter-spacing: 0.1em; color: var(--green);
-  margin-bottom: 1.5rem;
-  background: var(--green-light);
-  padding: 0.35rem 0.85rem; border-radius: 999px;
-}
 .hero h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3.2rem, 6vw, 5.5rem); /* Un poco más grande para impacto */
+  font-size: clamp(3.2rem, 6vw, 5.5rem);
   line-height: 1.0; letter-spacing: -0.03em;
-  color: var(--ink); margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 .hero h1 em { font-style: italic; color: var(--green); }
 .hero-sub {
@@ -107,321 +81,205 @@ nav {
   line-height: 1.75; max-width: 440px;
   margin-bottom: 2.5rem;
 }
-.hero-actions {
-  display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
-}
 .btn-primary {
   background: var(--ink); color: white;
-  border: none; border-radius: 12px;
-  padding: 0.9rem 2rem; font-size: 0.9rem;
-  font-family: 'DM Sans', sans-serif; font-weight: 500;
-  cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
+  border-radius: 12px; padding: 0.9rem 2rem;
+  font-size: 0.9rem; font-weight: 500;
   text-decoration: none; display: inline-block;
+  transition: all 0.2s;
 }
-.btn-primary:hover { background: #333; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
 
-/* ── WIDGET DEMO ── */
-.widget-demo {
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.05);
-  overflow: hidden;
-  border: 1px solid var(--border);
-}
-.demo-topbar {
-  background: var(--warm);
-  padding: 0.8rem 1.2rem;
-  display: flex; align-items: center; gap: 0.6rem;
-  border-bottom: 1px solid var(--border);
-}
-.demo-dots { display: flex; gap: 5px; }
-.demo-dots span { width: 9px; height: 9px; border-radius: 50%; }
-.demo-dots span:nth-child(1) { background: #ff5f57; }
-.demo-dots span:nth-child(2) { background: #febc2e; }
-.demo-dots span:nth-child(3) { background: #28c840; }
-.demo-url {
-  flex: 1; background: white;
-  border-radius: 5px; padding: 0.25rem 0.7rem;
-  font-size: 0.68rem; color: #aaa; text-align: center;
-}
-.demo-product {
-  padding: 1.5rem;
-  display: grid; grid-template-columns: 100px 1fr;
-  gap: 1rem; border-bottom: 1px solid #f5f5f5;
-}
-.demo-img {
-  background: var(--warm);
-  border-radius: 12px; aspect-ratio: 3/4;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2.5rem;
-}
-.demo-fitcheck { padding: 0 1.5rem 0.5rem; }
-.demo-pill {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.45rem 0.85rem; border-radius: 999px;
-  font-size: 0.75rem; font-weight: 500;
-  border: 1.5px solid #86efac;
-  background: #f0faf4; color: #15803d;
-  margin-bottom: 0.8rem;
-  animation: pillBounce 0.5s ease 1s both;
+/* ── DEMO CARDS ── */
+.demo-product-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 18px; position: relative; transition: all 0.2s;
   cursor: pointer;
 }
-@keyframes pillBounce {
-  0% { transform: scale(0.8); opacity: 0; }
-  60% { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.pill-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #22c55e;
-  animation: pillPulse 2s ease infinite;
-}
-@keyframes pillPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-/* ── SECCIONES GENERALES ── */
-.section { padding: 7rem 3rem; max-width: 1200px; margin: 0 auto; }
-.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 1rem; color: var(--ink); }
-
-/* ── DEMO PRODUCT CARDS & TOOLTIPS ── */
-.demo-product-card {
-  position: relative;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
 .dpc-img {
-  border-radius: 16px 16px 0 0;
-  aspect-ratio: 4/3;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
+  aspect-ratio: 4/3; display: flex; align-items: center; 
+  justify-content: center; position: relative; border-radius: 16px 16px 0 0;
 }
 .dpc-pill {
   position: absolute; bottom: 0.8rem; left: 50%; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.4rem 0.9rem; border-radius: 999px;
-  font-size: 0.72rem; font-weight: 600;
-  white-space: nowrap; backdrop-filter: blur(8px);
+  padding: 0.4rem 0.9rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600;
 }
 .green-pill { background: rgba(240,250,244,0.95); color: #15803d; border: 1px solid #86efac; }
 .yellow-pill { background: rgba(255,251,235,0.95); color: #92400e; border: 1px solid #fcd34d; }
 .red-pill { background: rgba(255,241,242,0.95); color: #b91c1c; border: 1px solid #fca5a5; }
 
 .dpc-tooltip {
-  position: absolute;
-  top: 0; left: calc(100% + 12px);
-  width: 260px; background: white;
-  border: 1px solid #f0f0f0; border-radius: 16px;
-  padding: 1.1rem; box-shadow: 0 16px 40px rgba(0,0,0,0.12);
-  opacity: 0; pointer-events: none;
-  transform: translateY(6px); transition: opacity 0.25s, transform 0.25s;
-  z-index: 20;
+  position: absolute; top: 0; left: calc(100% + 12px);
+  width: 260px; background: white; border: 1px solid #f0f0f0;
+  border-radius: 16px; padding: 1.1rem; box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+  opacity: 0; pointer-events: none; transition: all 0.25s; z-index: 20;
 }
 .dpc-tooltip.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
-#card-red .dpc-tooltip { left: auto; right: calc(100% + 12px); }
 
-/* ── PRIVACIDAD SECTION ── */
+/* ── SECTIONS ── */
+.section-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 1rem; }
+.signup-section { padding: 7rem 3rem; max-width: 700px; margin: 0 auto; text-align: center; scroll-margin-top: 100px; }
+.signup-form { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; text-align: left; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
+.field label { font-size: 0.8rem; font-weight: 500; color: var(--muted); }
+.field input, .field select { background: var(--warm); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem; outline: none; font-family: inherit; }
+.submit-btn { width: 100%; background: var(--ink); color: white; border: none; border-radius: 12px; padding: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.submit-btn:hover { background: #333; }
+
 .privacy-section { padding: 5rem 3rem; max-width: 700px; margin: 0 auto; scroll-margin-top: 100px; }
-.privacy-body { color: var(--muted); font-size: 0.88rem; line-height: 1.9; margin-top: 1.5rem; }
 
-/* ── RESPONSIVE ── */
+/* ── MOBILE ── */
 @media(max-width: 900px) {
-  .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; text-align: center; }
-  .hero-sub { margin-left: auto; margin-right: auto; }
-  .hero-actions { justify-content: center; }
-  .hero-right { display: none; }
-  
-  /* Tooltips en mobile: se muestran debajo en lugar de flotar */
-  .dpc-tooltip {
-    position: static;
-    width: 100%;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    box-shadow: none;
-    border: none;
-    border-top: 1px solid var(--border);
-    border-radius: 0 0 18px 18px;
-    display: none; /* Se controla con JS */
-  }
+  .hero { grid-template-columns: 1fr; text-align: center; padding-top: 8rem; }
+  .hero-right, .nav-links { display: none; }
+  .dpc-tooltip { position: static; width: 100%; box-shadow: none; display: none; border: none; border-top: 1px solid #eee; border-radius: 0 0 18px 18px; opacity: 1; }
   .dpc-tooltip.visible { display: block; }
-  nav { padding: 1rem 1.5rem; }
-  .nav-links { display: none; }
 }
-
-/* ── FORM ── */
-.signup-section { scroll-margin-top: 100px; padding: 7rem 3rem; max-width: 700px; margin: 0 auto; text-align: center; }
-.signup-form { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; text-align: left; box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
-.field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
-.field input, .field select { background: var(--warm); border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.9rem; outline: none; }
-.submit-btn { width: 100%; background: var(--ink); color: white; border: none; border-radius: 12px; padding: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-.submit-btn:hover { background: #333; transform: translateY(-1px); }
-
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo" onclick="window.scrollTo(0,0)" style="cursor:pointer">FitCheck<sup>beta</sup></div>
+  <div class="nav-logo" onclick="window.scrollTo(0,0)">FitCheck<sup>beta</sup></div>
   <div class="nav-links">
-    <a href="#como-funciona">Cómo funciona</a>
-    <a href="#impacto">Impacto</a>
-    <a href="#registro">Precios</a>
+    <a href="#demo-vivo">Ver Demo</a>
+    <a href="#registro">Beta Gratis</a>
   </div>
-  <!-- BOTÓN ARREGLADO -->
   <a class="nav-cta" href="#registro">Instalar en mi tienda →</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Widget de compatibilidad de tallas</div>
     <h1>Tu cliente sabe si le queda<br><em>antes</em> de comprar.</h1>
-    <p class="hero-sub">
-      FitCheck agrega un semáforo inteligente a cada prenda de tu tienda. Verde, amarillo o rojo. Sin fricción. Solo la respuesta que tu cliente necesita.
-    </p>
-    <div class="hero-actions">
-      <!-- BOTÓN ARREGLADO -->
-      <a class="btn-primary" href="#registro">Instalar gratis — 5 minutos</a>
-    </div>
+    <p class="hero-sub">Agregá un semáforo inteligente a tu e-commerce. Bajá las devoluciones y subí la confianza de tus clientes.</p>
+    <a class="btn-primary" href="#registro">Instalar gratis — 5 minutos</a>
   </div>
-
   <div class="hero-right">
-    <!-- WIDGET DEMO (SIMPLIFICADO) -->
-    <div class="widget-demo">
-      <div class="demo-topbar">
-        <div class="demo-dots"><span></span><span></span><span></span></div>
-        <div class="demo-url">tushop.com/camisa-oxford</div>
-      </div>
-      <div class="demo-product">
-        <div class="demo-img">👔</div>
-        <div>
-          <div style="font-size:0.6rem; color:#aaa">BlueFit</div>
-          <div style="font-weight:600">Camisa Oxford Slim</div>
-          <div style="font-family:serif">$850</div>
-        </div>
-      </div>
-      <div class="demo-fitcheck">
-        <div class="demo-pill">
-          <div class="pill-dot"></div>
-          Te queda perfecto · Talla M ▾
-        </div>
+    <div style="background:white; padding:2rem; border-radius:24px; border:1px solid var(--border); box-shadow:0 20px 40px rgba(0,0,0,0.05)">
+      <div style="font-size:2rem; margin-bottom:1rem">👔</div>
+      <div style="font-weight:600">Camisa Oxford Slim</div>
+      <div style="display:inline-flex; align-items:center; gap:0.5rem; margin-top:1rem; padding:0.5rem 1rem; background:#f0faf4; color:#15803d; border-radius:99px; font-size:0.8rem; border:1px solid #86efac">
+        <div style="width:8px; height:8px; background:#22c55e; border-radius:50%"></div>
+        Te queda perfecto · Talla M
       </div>
     </div>
   </div>
 </section>
 
-<!-- DEMO EN VIVO -->
-<section style="padding:7rem 3rem;background:var(--bg)" id="demo-vivo">
-  <div style="max-width:1200px;margin:0 auto">
-    <div style="text-align:center;margin-bottom:3.5rem">
-      <h2 class="section-title">Pruébalo tú mismo.</h2>
-      <p style="color:var(--muted)">Haz clic o pasa el cursor para ver el detalle de ajuste.</p>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.5rem;">
-      <!-- CARD VERDE -->
-      <div class="demo-product-card" id="card-green" onmouseenter="showTooltip('green')" onmouseleave="hideTooltip('green')" onclick="toggleTooltip('green')">
-        <div class="dpc-img" style="background:#e8f4ed">
-          <span style="font-size:3.5rem">👔</span>
-          <div class="dpc-pill green-pill">Te queda perfecto</div>
-        </div>
+<section id="demo-vivo" style="padding:5rem 3rem; background:white">
+  <div style="max-width:1200px; margin:0 auto">
+    <h2 class="section-title" style="text-align:center">Probá la experiencia</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:2rem; margin-top:3rem">
+      
+      <div class="demo-product-card" onmouseenter="showTooltip('green')" onmouseleave="hideTooltip('green')" onclick="toggleTooltip('green')">
+        <div class="dpc-img" style="background:#e8f4ed"><span>👔</span><div class="dpc-pill green-pill">Perfecto</div></div>
         <div class="dpc-tooltip" id="tooltip-green">
-          <div style="font-weight:700; margin-bottom:0.5rem">Ajuste: 92%</div>
-          <p style="font-size:0.75rem">Todas las zonas están en tu rango ideal.</p>
+          <strong>Ajuste: 92%</strong><p style="font-size:0.7rem; color:var(--muted)">Todas las zonas coinciden con tus medidas.</p>
         </div>
       </div>
 
-      <!-- CARD AMARILLO -->
-      <div class="demo-product-card" id="card-yellow" onmouseenter="showTooltip('yellow')" onmouseleave="hideTooltip('yellow')" onclick="toggleTooltip('yellow')">
-        <div class="dpc-img" style="background:#fef9e7">
-          <span style="font-size:3.5rem">🧥</span>
-          <div class="dpc-pill yellow-pill">Ojo con los hombros</div>
-        </div>
+      <div class="demo-product-card" onmouseenter="showTooltip('yellow')" onmouseleave="hideTooltip('yellow')" onclick="toggleTooltip('yellow')">
+        <div class="dpc-img" style="background:#fef9e7"><span>🧥</span><div class="dpc-pill yellow-pill">Hombros anchos</div></div>
         <div class="dpc-tooltip" id="tooltip-yellow">
-          <div style="font-weight:700; margin-bottom:0.5rem">Ajuste: 71%</div>
-          <p style="font-size:0.75rem">Hombros +4cm. Ideal si buscas look oversize.</p>
+          <strong>Ajuste: 71%</strong><p style="font-size:0.7rem; color:var(--muted)">Hombros +4cm. Estilo un poco oversize.</p>
         </div>
       </div>
 
-      <!-- CARD ROJO -->
       <div class="demo-product-card" id="card-red" onmouseenter="showTooltip('red')" onmouseleave="hideTooltip('red')" onclick="toggleTooltip('red')">
-        <div class="dpc-img" style="background:#fef2f2">
-          <span style="font-size:3.5rem">👖</span>
-          <div class="dpc-pill red-pill">No es tu talla</div>
-        </div>
+        <div class="dpc-img" style="background:#fef2f2"><span>👖</span><div class="dpc-pill red-pill">No es tu talla</div></div>
         <div class="dpc-tooltip" id="tooltip-red">
-          <div style="font-weight:700; margin-bottom:0.5rem">Ajuste: 38%</div>
-          <p style="font-size:0.75rem">Cintura muy ajustada (-6cm). No recomendado.</p>
+          <strong>Ajuste: 38%</strong><p style="font-size:0.7rem; color:var(--muted)">Cintura muy pequeña. No cerrará.</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- REGISTRO -->
 <section class="signup-section" id="registro">
   <h2 class="section-title">Instalá FitCheck <em>gratis.</em></h2>
-  <p style="color:var(--muted); margin-bottom:2rem">Beta abierta: primeras 10 tiendas con acceso total gratuito.</p>
   <div class="signup-form">
-    <div class="field"><label>Nombre</label><input type="text" placeholder="Tu nombre"></div>
-    <div class="field"><label>Email</label><input type="email" placeholder="tu@tienda.com"></div>
-    <div class="field"><label>Plataforma</label>
-      <select>
-        <option>Shopify</option>
-        <option>WooCommerce</option>
-        <option>Tiendanube</option>
-        <option>Otra</option>
-      </select>
+    <div id="form-content">
+      <div class="field"><label>Nombre</label><input type="text" id="f-nombre" placeholder="Tu nombre"></div>
+      <div class="field"><label>Email</label><input type="email" id="f-email" placeholder="tu@tienda.com"></div>
+      <div class="field"><label>Nombre de la tienda</label><input type="text" id="f-tienda" placeholder="Mi Tienda"></div>
+      <div class="field">
+        <label>Plataforma</label>
+        <select id="f-plataforma">
+          <option value="">Seleccionar...</option>
+          <option>Shopify</option>
+          <option>WooCommerce</option>
+          <option>Tiendanube</option>
+          <option>Otra</option>
+        </select>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">Quiero instalar FitCheck →</button>
     </div>
-    <button class="submit-btn">Quiero instalar FitCheck →</button>
+
+    <div id="success-msg" style="display:none; text-align:center; padding:2rem">
+      <div style="font-size:3rem; margin-bottom:1rem">✅</div>
+      <h3 style="font-family:'Playfair Display'">¡Excelente, Julieta!</h3>
+      <p style="color:var(--muted); margin-top:0.5rem">Ya recibimos tu solicitud. Te contactaremos pronto.</p>
+    </div>
   </div>
 </section>
 
-<!-- PRIVACIDAD (ID ARREGLADO) -->
 <section class="privacy-section" id="privacidad">
-  <h2 style="font-family:'Playfair Display'; font-size:2rem">Política de privacidad</h2>
-  <div class="privacy-body">
-    <p><strong>Datos recopilados:</strong> FitCheck no almacena datos biométricos en servidores externos; las medidas se procesan localmente para garantizar tu seguridad.</p>
-    <p><strong>Uso:</strong> Los datos de contacto se utilizan exclusivamente para la gestión de la cuenta beta y soporte técnico.</p>
-    <p>Para dudas: <a href="mailto:contacto.fitcheck@gmail.com" style="color:var(--green)">contacto.fitcheck@gmail.com</a></p>
+  <h2 style="font-family:'Playfair Display'">Privacidad</h2>
+  <div style="color:var(--muted); margin-top:1rem; line-height:1.6; font-size:0.9rem">
+    <p>FitCheck procesa las medidas localmente. No almacenamos datos biométricos en servidores externos para proteger la identidad de tus clientes.</p>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer style="background:var(--ink); color:white; padding:3rem; text-align:center">
-  <div style="font-family:'Playfair Display'; font-size:1.5rem; margin-bottom:1rem">FitCheck</div>
-  <div style="display:flex; justify-content:center; gap:2rem; font-size:0.8rem; opacity:0.6">
+<footer style="background:var(--ink); color:white; padding:4rem 3rem; text-align:center">
+  <div style="font-family:'Playfair Display'; font-size:1.5rem">FitCheck</div>
+  <div style="margin-top:1.5rem; display:flex; justify-content:center; gap:2rem; font-size:0.8rem; opacity:0.6">
     <a href="#registro" style="color:white; text-decoration:none">Instalar</a>
-    <!-- LINK ARREGLADO -->
     <a href="#privacidad" style="color:white; text-decoration:none">Privacidad</a>
     <a href="mailto:contacto.fitcheck@gmail.com" style="color:white; text-decoration:none">Contacto</a>
   </div>
-  <p style="font-size:0.7rem; opacity:0.4; margin-top:2rem">© 2026 FitCheck — Atlantic Coast Tech</p>
+  <div style="margin-top:2rem; font-size:0.7rem; opacity:0.3">© 2026 FitCheck — Atlantic Coast Tech</div>
 </footer>
 
 <script>
-function showTooltip(color) {
-  if (window.innerWidth > 900) {
-    document.getElementById('tooltip-' + color).classList.add('visible');
-  }
-}
-function hideTooltip(color) {
-  if (window.innerWidth > 900) {
-    document.getElementById('tooltip-' + color).classList.remove('visible');
-  }
-}
+function showTooltip(color) { if(window.innerWidth > 900) document.getElementById('tooltip-'+color).classList.add('visible'); }
+function hideTooltip(color) { if(window.innerWidth > 900) document.getElementById('tooltip-'+color).classList.remove('visible'); }
 function toggleTooltip(color) {
-  if (window.innerWidth <= 900) {
-    const tt = document.getElementById('tooltip-' + color);
-    const isVisible = tt.classList.contains('visible');
-    // Cerrar otros
+  if(window.innerWidth <= 900) {
+    const tt = document.getElementById('tooltip-'+color);
+    const visible = tt.classList.contains('visible');
     document.querySelectorAll('.dpc-tooltip').forEach(t => t.classList.remove('visible'));
-    if (!isVisible) tt.classList.add('visible');
+    if(!visible) tt.classList.add('visible');
   }
+}
+
+function submitForm() {
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const tienda = document.getElementById('f-tienda').value.trim();
+  const plataforma = document.getElementById('f-plataforma').value;
+
+  if(!nombre || !email || !tienda || !plataforma) {
+    alert('Completá todos los campos, Julieta.');
+    return;
+  }
+
+  const endpoint = "https://formspree.io/f/mqenpvzv";
+
+  fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({ nombre, email, tienda, plataforma })
+  })
+  .then(response => {
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  })
+  .catch(error => {
+    alert('Hubo un error, pero no te preocupes. Intentá de nuevo.');
+  });
 }
 </script>
 
 </body>
-</html>
+</html>0
