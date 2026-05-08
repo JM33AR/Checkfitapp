@@ -1055,7 +1055,7 @@ footer {
     <p><strong>Datos que recopilamos:</strong> Las medidas corporales que el usuario ingresa voluntariamente y los datos del formulario de registro (nombre, email, tienda).</p>
     <p><strong>Cómo los usamos:</strong> Las medidas se usan exclusivamente para calcular la compatibilidad con las prendas. No se venden ni comparten con terceros.</p>
     <p><strong>Almacenamiento:</strong> Las medidas se guardan localmente en el dispositivo del usuario. FitCheck no almacena datos biométricos en sus servidores.</p>
-    <p><strong>Contacto:</strong> Para consultas sobre privacidad escribinos a <a href="mailto:hola@fitcheck.app" style="color:var(--green)">hola@fitcheck.app</a></p>
+    <p><strong>Contacto:</strong> Para consultas sobre privacidad escribinos a <a href="mailto:contacto.fitcheck@gmail.com" style="color:var(--green)">contacto.fitcheck@gmail.com</a></p>
   </div>
 </section>
 
@@ -1065,7 +1065,7 @@ footer {
   <div class="footer-links">
     <a href="https://jm33ar.github.io/Checkfitapp/demo.html">Demo</a>
     <a href="#privacidad">Privacidad</a>
-    <a href="mailto:hola@fitcheck.app">Contacto</a>
+    <a href="mailto:contacto.fitcheck@gmail.com">Contacto</a>
   </div>
   <div>© 2026 FitCheck</div>
 </footer>
@@ -1098,13 +1098,20 @@ function submitForm() {
     return;
   }
 
-  // Envío a Formspree (reemplazá el endpoint con el tuyo)
-  const endpoint = https://formspree.io/f/mqenpvzv;
+  const endpoint = 'https://formspree.io/julietamilka@gmail.com';
 
   fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ nombre, email, tienda, plataforma, url })
+    body: JSON.stringify({
+      nombre,
+      email,
+      tienda,
+      plataforma,
+      url,
+      _subject: '🟢 Nueva tienda interesada en FitCheck — ' + tienda,
+      _replyto: email
+    })
   })
   .then(r => {
     // Mostramos éxito tanto si el endpoint funciona como si no (beta)
