@@ -1,215 +1,788 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Widget FitCheck</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 16px;
-            background-color: #ffffff;
-            color: #333;
-        }
-        .widget-container {
-            background: #ffffff;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid #e1e8ed;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        .logo-container {
-            text-align: center;
-            margin-bottom: 12px;
-        }
-        .logo-text {
-            font-weight: 800;
-            color: #2b6cb0;
-            font-size: 1.4rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .logo-text span {
-            color: #2c3e50;
-        }
-        h2 {
-            color: #2c3e50;
-            font-size: 1.1rem;
-            margin-top: 0;
-            margin-bottom: 14px;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-            color: #555;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            font-size: 0.95rem;
-        }
-        input:focus {
-            outline: none;
-            border-color: #3182ce;
-            box-shadow: 0 0 0 1px #3182ce;
-        }
-        button {
-            width: 100%;
-            background-color: #2b6cb0;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            background-color: #2c5282;
-        }
-        #resultado {
-            margin-top: 14px;
-            padding: 10px;
-            background-color: #ebf8ff;
-            border-left: 4px solid #3182ce;
-            border-radius: 0 6px 6px 0;
-            font-size: 0.9rem;
-            color: #2b6cb0;
-            display: none;
-            text-align: center;
-        }
-        .alerta-largo {
-            margin-top: 10px;
-            padding: 8px;
-            background-color: #fffaf0;
-            border: 1px solid #dd6b20;
-            border-radius: 6px;
-            color: #c05621;
-            font-size: 0.85rem;
-            text-align: left;
-            display: none;
-        }
-        .aviso-generico {
-            margin-top: 12px;
-            font-size: 0.75rem;
-            color: #718096;
-            text-align: center;
-            border-top: 1px solid #edf2f7;
-            padding-top: 8px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Widget FitCheck — Tu semáforo de tallas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111010;
+  --bg: #faf8f5;
+  --warm: #f2ede6;
+  --green: #1a6b3c;
+  --green-light: #d4eddf;
+  --green-vivid: #22c55e;
+  --yellow: #92600a;
+  --yellow-light: #fef3dc;
+  --yellow-vivid: #f59e0b;
+  --red: #8b1d1d;
+  --red-light: #fde8e8;
+  --red-vivid: #ef4444;
+  --muted: #7a7570;
+  --border: rgba(17,16,16,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease both;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.logo-badge {
+  font-size: 0.42em;
+  background: var(--green);
+  color: white;
+  padding: 0.15em 0.5em;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+}
+.header-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ── CARD ── */
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── STEPS ── */
+.steps {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.8rem;
+  align-items: center;
+}
+.step-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s, transform 0.3s;
+}
+.step-dot.active { background: var(--green); transform: scale(1.3); }
+.step-dot.done   { background: var(--green-vivid); }
+.steps-label {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+/* ── FORM ── */
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+  color: var(--ink);
+}
+.form-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.field-group {
+  margin-bottom: 1rem;
+}
+.field-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.field-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.field label {
+  font-size: 0.68rem;
+  color: var(--muted);
+  padding-left: 0.1rem;
+}
+.field-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--warm);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.field-wrap:focus-within { border-color: var(--ink); }
+.field-wrap input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  width: 100%;
+}
+.field-unit {
+  font-size: 0.68rem;
+  color: var(--muted);
+  padding-right: 0.7rem;
+  flex-shrink: 0;
+}
+
+.optional-tag {
+  font-size: 0.6rem;
+  color: var(--muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 0.4rem;
+}
+
+.btn-calc {
+  width: 100%;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  letter-spacing: 0.02em;
+}
+.btn-calc:hover { background: #2a2a2a; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+.btn-calc:active { transform: none; }
+
+.btn-secondary {
+  width: 100%;
+  background: none;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem;
+  font-size: 0.82rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 0.6rem;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── RESULTS ── */
+#result-screen { display: none; }
+
+.result-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  margin-bottom: 1.4rem;
+  border: 2px solid;
+  animation: pillIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes pillIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.result-pill.green { background: #f0fdf4; border-color: #86efac; }
+.result-pill.yellow { background: #fffbeb; border-color: #fcd34d; }
+.result-pill.red   { background: #fff1f2; border-color: #fca5a5; }
+
+.result-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: dotPulse 2.5s ease infinite;
+}
+@keyframes dotPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+.result-pill.green .result-dot { background: var(--green-vivid); box-shadow: 0 0 10px rgba(34,197,94,0.5); }
+.result-pill.yellow .result-dot { background: var(--yellow-vivid); box-shadow: 0 0 10px rgba(245,158,11,0.5); }
+.result-pill.red .result-dot   { background: var(--red-vivid); box-shadow: 0 0 10px rgba(239,68,68,0.5); }
+
+.result-pill-text { flex: 1; }
+.result-pill-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.result-pill.green .result-pill-title { color: #15803d; }
+.result-pill.yellow .result-pill-title { color: #92400e; }
+.result-pill.red .result-pill-title   { color: #991b1b; }
+
+.result-pill-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+.result-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.result-pill.green .result-score { color: #15803d; }
+.result-pill.yellow .result-score { color: #92400e; }
+.result-pill.red .result-score   { color: #991b1b; }
+
+/* size recommendation */
+.size-rec {
+  text-align: center;
+  padding: 1rem;
+  background: var(--warm);
+  border-radius: 12px;
+  margin-bottom: 1.4rem;
+  animation: fadeUp 0.5s ease 0.2s both;
+}
+.size-rec-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.size-rec-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  margin: 0.2rem 0 0.1rem;
+}
+.size-rec-note { font-size: 0.72rem; color: var(--muted); }
+
+/* zones */
+.zones-title {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+.zones { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.4rem; }
+.zone {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: fadeUp 0.4s ease both;
+}
+.zone:nth-child(1) { animation-delay: 0.3s; }
+.zone:nth-child(2) { animation-delay: 0.4s; }
+.zone:nth-child(3) { animation-delay: 0.5s; }
+.zone:nth-child(4) { animation-delay: 0.6s; }
+
+.zone-name { font-size: 0.72rem; color: var(--muted); width: 68px; flex-shrink: 0; }
+.zone-bar { flex: 1; height: 5px; background: #f0f0f0; border-radius: 99px; overflow: hidden; }
+.zone-fill { height: 100%; border-radius: 99px; transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1); width: 0; }
+.zone-val { font-size: 0.7rem; font-weight: 600; width: 52px; text-align: right; }
+
+/* alert note */
+.alert-note {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin-bottom: 1.4rem;
+  animation: fadeUp 0.5s ease 0.7s both;
+}
+.alert-note.green { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; }
+.alert-note.yellow { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.alert-note.red   { background: #fff1f2; color: #991b1b; border: 1px solid #fca5a5; }
+
+/* alternatives */
+.alts { margin-bottom: 1.4rem; animation: fadeUp 0.5s ease 0.8s both; }
+.alts-title { font-size: 0.72rem; font-weight: 600; color: var(--ink); margin-bottom: 0.6rem; }
+.alt-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--warm);
+  border-radius: 10px;
+  margin-bottom: 0.4rem;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+.alt-item:hover { border-color: var(--green); }
+.alt-emoji { font-size: 1.2rem; }
+.alt-text { flex: 1; }
+.alt-name { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+.alt-why  { font-size: 0.68rem; color: var(--muted); }
+.alt-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #86efac;
+  padding: 0.2em 0.6em;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+
+/* footer note */
+.footer-note {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 1.5rem;
+  line-height: 1.6;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.footer-note a { color: var(--green); text-decoration: none; }
+.footer-note a:hover { text-decoration: underline; }
+
+.powered {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.65rem;
+  color: #ccc;
+  letter-spacing: 0.05em;
+}
+.powered strong { color: var(--muted); }
+
+/* error */
+.field-error { font-size: 0.65rem; color: var(--red-vivid); margin-top: 0.15rem; }
+.field-wrap.error { border-color: var(--red-vivid); }
+
+/* loading */
+.loading-overlay {
+  display: none;
+  text-align: center;
+  padding: 2rem 0;
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
 <body>
 
-<div class="widget-container">
-    <div class="logo-container">
-        <div class="logo-text">Fit<span>Check</span></div>
-    </div>
-    
-    <h2>Encontrá tu talle ideal</h2>
-    
-    <div class="form-group">
-        <label for="pecho">Contorno de pecho (cm):</label>
-        <input type="number" id="pecho" placeholder="Ej. 90" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="cintura">Contorno de cintura (cm):</label>
-        <input type="number" id="cintura" placeholder="Ej. 72" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="cadera">Contorno de cadera (cm):</label>
-        <input type="number" id="cadera" placeholder="Ej. 96" required>
-    </div>
-
-    <div class="form-group">
-        <label for="hombros">Ancho de hombros (cm):</label>
-        <input type="number" id="hombros" placeholder="Ej. 38" required>
-    </div>
-
-    <div class="form-group">
-        <label for="pierna">Largo de pierna (cm):</label>
-        <input type="number" id="pierna" placeholder="Ej. 95" required>
-    </div>
-
-    <div class="form-group">
-        <label for="altura">Tu altura (cm):</label>
-        <input type="number" id="altura" placeholder="Ej. 150" required>
-    </div>
-    
-    <button onclick="calcularTalle()">Calcular mi talle</button>
-
-    <div id="resultado"></div>
-    <div id="alertaLargo" class="alerta-largo"></div>
-    
-    <div class="aviso-generico">
-        * Estimación basada en medidas estándar. ¿Sos fabricante? <a href="contacto.html" style="color: #2b6cb0;" target="_blank">Contactanos</a> para integrar tus talles reales.
-    </div>
+<div class="header">
+  <div class="logo">FitCheck<span class="logo-badge">beta</span></div>
+  <div class="header-sub">Tu semáforo de tallas — ingresá tus medidas una vez</div>
 </div>
 
+<div class="card">
+
+  <!-- STEPS INDICATOR -->
+  <div class="steps">
+    <div class="step-dot active" id="dot-1"></div>
+    <div class="step-dot" id="dot-2"></div>
+    <div class="steps-label" id="step-label">Paso 1 de 2</div>
+  </div>
+
+  <!-- FORM SCREEN -->
+  <div id="form-screen">
+    <div class="form-title">Ingresá tus<br><em style="font-family:'Playfair Display',serif;font-style:italic;color:var(--green)">medidas reales</em></div>
+    <p class="form-desc">Medite con ropa interior o ajustada. Los resultados son más precisos cuanto más exactas sean las medidas.</p>
+
+    <!-- MEDIDAS PRINCIPALES -->
+    <div class="field-group">
+      <span class="field-label">Medidas principales</span>
+      <div class="field-row">
+        <div class="field">
+          <label>Pecho / Busto</label>
+          <div class="field-wrap" id="wrap-pecho">
+            <input type="number" id="pecho" placeholder="88" min="60" max="140">
+            <span class="field-unit">cm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Cintura</label>
+          <div class="field-wrap" id="wrap-cintura">
+            <input type="number" id="cintura" placeholder="68" min="50" max="130">
+            <span class="field-unit">cm</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:0.6rem">
+        <div class="field">
+          <label>Cadera</label>
+          <div class="field-wrap" id="wrap-cadera">
+            <input type="number" id="cadera" placeholder="96" min="70" max="150">
+            <span class="field-unit">cm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDIDAS OPCIONALES -->
+    <div class="field-group">
+      <span class="field-label">Más detalle <span class="optional-tag">(opcional, mejora la precisión)</span></span>
+      <div class="field-row three">
+        <div class="field">
+          <label>Hombros</label>
+          <div class="field-wrap">
+            <input type="number" id="hombros" placeholder="40" min="28" max="60">
+            <span class="field-unit">cm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Largo pierna</label>
+          <div class="field-wrap">
+            <input type="number" id="pierna" placeholder="78" min="50" max="110">
+            <span class="field-unit">cm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Altura</label>
+          <div class="field-wrap">
+            <input type="number" id="altura" placeholder="165" min="140" max="210">
+            <span class="field-unit">cm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="calcular()">Ver mi semáforo →</button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-overlay" id="loading-screen">
+    <div class="spinner"></div>
+    <div style="font-size:0.82rem;color:var(--muted)">Analizando tus medidas…</div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen">
+
+    <div id="result-pill-el" class="result-pill">
+      <div id="result-dot" class="result-dot"></div>
+      <div class="result-pill-text">
+        <div id="result-title" class="result-pill-title"></div>
+        <div id="result-subtitle" class="result-pill-sub"></div>
+      </div>
+      <div id="result-score" class="result-score"></div>
+    </div>
+
+    <div class="size-rec">
+      <div class="size-rec-label">Tu talla recomendada</div>
+      <div class="size-rec-value" id="size-value">M</div>
+      <div class="size-rec-note" id="size-note">basado en tus medidas ingresadas</div>
+    </div>
+
+    <div class="zones-title">Detalle por zona</div>
+    <div class="zones" id="zones-container"></div>
+
+    <div class="alert-note" id="alert-note"></div>
+
+    <div id="alts-section" class="alts" style="display:none">
+      <div class="alts-title">Opciones que sí te quedarían bien</div>
+      <div id="alts-container"></div>
+    </div>
+
+    <button class="btn-secondary" onclick="resetForm()">← Cambiar medidas</button>
+
+    <div class="footer-note">
+      Estimación basada en medidas estándar de la industria.<br>
+      ¿Sos una tienda? <a href="https://checkfitapp.vercel.app/#registro">Integrá FitCheck con tus talles reales →</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="powered">Impulsado por <strong>FitCheck</strong> · checkfitapp.vercel.app</div>
+
 <script>
-    function calcularTalle() {
-        const pecho = parseFloat(document.getElementById('pecho').value);
-        const cintura = parseFloat(document.getElementById('cintura').value);
-        const cadera = parseFloat(document.getElementById('cadera').value);
-        const hombros = parseFloat(document.getElementById('hombros').value);
-        const pierna = parseFloat(document.getElementById('pierna').value);
-        const altura = parseFloat(document.getElementById('altura').value);
-        
-        const resultadoDiv = document.getElementById('resultado');
-        const alertaDiv = document.getElementById('alertaLargo');
+// ── TABLAS DE TALLAS ──
+// [min_ideal, max_ideal] por zona — talle estándar internacional (femenino/unisex)
+const SIZES = {
+  'XS':  { pecho:[72,76],   cintura:[54,58],  cadera:[80,84],  hombros:[34,36.5] },
+  'S':   { pecho:[76,80],   cintura:[58,62],  cadera:[84,88],  hombros:[36.5,38.5] },
+  'M':   { pecho:[80,86],   cintura:[62,68],  cadera:[88,94],  hombros:[38.5,41] },
+  'L':   { pecho:[86,92],   cintura:[68,74],  cadera:[94,100], hombros:[41,43.5] },
+  'XL':  { pecho:[92,98],   cintura:[74,80],  cadera:[100,106],hombros:[43.5,46] },
+  'XXL': { pecho:[98,106],  cintura:[80,88],  cadera:[106,114],hombros:[46,49] },
+};
 
-        // Ocultar alertas previas
-        alertaDiv.style.display = 'none';
+const SIZE_ORDER = ['XS','S','M','L','XL','XXL'];
 
-        if (isNaN(pecho) || isNaN(cintura) || isNaN(cadera) || isNaN(hombros) || isNaN(pierna) || isNaN(altura)) {
-            resultadoDiv.style.display = 'block';
-            resultadoDiv.style.borderColor = '#e53e3e';
-            resultadoDiv.style.color = '#c53030';
-            resultadoDiv.style.backgroundColor = '#fff5f5';
-            resultadoDiv.innerHTML = "Por favor, completá todos los campos.";
-            return;
-        }
+// alternativas para cuando es rojo
+const ALTERNATIVES = {
+  top:  [
+    { emoji:'👕', name:'Remera Relaxed Fit', why:'Corte más amplio, misma estética' },
+    { emoji:'🧥', name:'Campera Oversized',  why:'Holgura extra sin perder el look' },
+  ],
+  bottom: [
+    { emoji:'👖', name:'Jean Straight Leg',  why:'Mismo largo, cintura cómoda' },
+    { emoji:'👖', name:'Pantalón Wide Leg',  why:'Más margen en cadera y muslo' },
+  ],
+};
 
-        let talleSugerido = "";
+// ── UTILS ──
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
-        // Lógica de recomendación de talles
-        if (pecho <= 88 && cintura <= 68 && cadera <= 92 && hombros <= 38 && pierna <= 98) {
-            talleSugerido = "S";
-        } else if (pecho <= 94 && cintura <= 74 && cadera <= 98 && hombros <= 40 && pierna <= 101) {
-            talleSugerido = "M";
-        } else if (pecho <= 100 && cintura <= 80 && cadera <= 104 && hombros <= 42 && pierna <= 104) {
-            talleSugerido = "L";
-        } else {
-            talleSugerido = "XL";
-        }
+function zoneDelta(value, range) {
+  // delta: negativo = muy ajustado, positivo = muy holgado
+  if (value < range[0]) return value - range[0]; // negativo: falta tela
+  if (value > range[1]) return value - range[1]; // positivo: sobra tela
+  return 0; // dentro del rango
+}
 
-        // Lógica de advertencia de largo
-        if (altura <= 155) {
-            alertaDiv.style.display = 'block';
-            alertaDiv.innerHTML = `<strong>Aviso para corte Petite:</strong> Para tu altura (${altura} cm), este talle podría quedarte largo. Te recomendamos buscar la <em>versión Petite</em> o elegir un modelo con bota/ruedo ajustable.`;
-        }
+function scoreZone(delta) {
+  const abs = Math.abs(delta);
+  if (abs <= 2)  return 'green';
+  if (abs <= 5)  return 'yellow';
+  return 'red';
+}
 
-        resultadoDiv.style.display = 'block';
-        resultadoDiv.style.borderColor = '#3182ce';
-        resultadoDiv.style.color = '#2b6cb0';
-        resultadoDiv.style.backgroundColor = '#ebf8ff';
-        resultadoDiv.innerHTML = `<strong>¡Talle sugerido: ${talleSugerido}!</strong>`;
+function overallColor(zoneColors) {
+  if (zoneColors.includes('red'))    return 'red';
+  if (zoneColors.includes('yellow')) return 'yellow';
+  return 'green';
+}
+
+function fitScore(zoneDeltas) {
+  // Puntaje 0-100 basado en cuánto se desvía cada zona
+  const weights = [0.35, 0.25, 0.25, 0.15]; // pecho, cintura, cadera, hombros
+  let total = 0;
+  zoneDeltas.forEach((d, i) => {
+    const w = weights[i] || 0.1;
+    const penalty = Math.min(Math.abs(d) * 4, 40); // máx 40 puntos de penalidad por zona
+    total += w * (100 - penalty);
+  });
+  return Math.round(clamp(total, 10, 99));
+}
+
+function findBestSize(pecho, cintura, cadera, hombros) {
+  let best = null, bestScore = -1;
+  for (const [sz, ranges] of Object.entries(SIZES)) {
+    const dPecho   = Math.abs(zoneDelta(pecho,   ranges.pecho));
+    const dCintura = Math.abs(zoneDelta(cintura,  ranges.cintura));
+    const dCadera  = Math.abs(zoneDelta(cadera,   ranges.cadera));
+    const dHombros = hombros ? Math.abs(zoneDelta(hombros, ranges.hombros)) : 0;
+    const totalDev = dPecho + dCintura + dCadera + dHombros;
+    const sc = 1000 - totalDev * 10;
+    if (sc > bestScore) { bestScore = sc; best = sz; }
+  }
+  return best;
+}
+
+function formatDelta(delta) {
+  if (Math.abs(delta) < 0.5) return 'Exacto';
+  const sign = delta > 0 ? '+' : '';
+  return sign + Math.round(delta) + ' cm';
+}
+
+function barWidth(delta, color) {
+  const abs = Math.abs(delta);
+  if (color === 'green')  return Math.max(70, 100 - abs * 5);
+  if (color === 'yellow') return Math.max(40, 80 - abs * 6);
+  return Math.max(10, 50 - abs * 4);
+}
+
+// ── MAIN CALC ──
+function calcular() {
+  const pecho   = parseFloat(document.getElementById('pecho').value);
+  const cintura = parseFloat(document.getElementById('cintura').value);
+  const cadera  = parseFloat(document.getElementById('cadera').value);
+  const hombros = parseFloat(document.getElementById('hombros').value) || null;
+  const pierna  = parseFloat(document.getElementById('pierna').value)  || null;
+  const altura  = parseFloat(document.getElementById('altura').value)  || null;
+
+  // validar
+  let hasError = false;
+  [['wrap-pecho', pecho], ['wrap-cintura', cintura], ['wrap-cadera', cadera]].forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (!val || isNaN(val)) {
+      el.classList.add('error');
+      hasError = true;
+    } else {
+      el.classList.remove('error');
     }
-</script>
+  });
+  if (hasError) return;
 
+  // loading
+  document.getElementById('form-screen').style.display = 'none';
+  document.getElementById('loading-screen').style.display = 'block';
+
+  setTimeout(() => {
+    document.getElementById('loading-screen').style.display = 'none';
+    renderResult(pecho, cintura, cadera, hombros, pierna, altura);
+  }, 900);
+}
+
+function renderResult(pecho, cintura, cadera, hombros, pierna, altura) {
+  const bestSize = findBestSize(pecho, cintura, cadera, hombros);
+  const ranges   = SIZES[bestSize];
+
+  const deltas = {
+    pecho:   zoneDelta(pecho,   ranges.pecho),
+    cintura: zoneDelta(cintura, ranges.cintura),
+    cadera:  zoneDelta(cadera,  ranges.cadera),
+  };
+  if (hombros) deltas.hombros = zoneDelta(hombros, ranges.hombros);
+
+  const colors = Object.values(deltas).map(d => scoreZone(d));
+  const overall = overallColor(colors);
+  const score   = fitScore(Object.values(deltas));
+
+  // update steps
+  document.getElementById('dot-1').className = 'step-dot done';
+  document.getElementById('dot-2').className = 'step-dot active';
+  document.getElementById('step-label').textContent = 'Paso 2 de 2';
+
+  // pill
+  const pill = document.getElementById('result-pill-el');
+  pill.className = 'result-pill ' + overall;
+  document.getElementById('result-dot').className = 'result-dot';
+
+  const labels = {
+    green:  ['Te queda perfecto', 'Todas las zonas en rango ideal'],
+    yellow: ['Ojo con alguna zona', 'Puede que ajuste en un área puntual'],
+    red:    ['No es tu talla', 'Dos o más zonas tienen problema'],
+  };
+  document.getElementById('result-title').textContent    = labels[overall][0];
+  document.getElementById('result-subtitle').textContent = labels[overall][1];
+  document.getElementById('result-score').textContent    = score + '%';
+
+  // size
+  document.getElementById('size-value').textContent = bestSize;
+  const sizeNotes = {
+    green:  'ajuste óptimo para tus medidas',
+    yellow: 'la más cercana — revisá el detalle',
+    red:    'ninguna talla es ideal — considerá otra prenda',
+  };
+  document.getElementById('size-note').textContent = sizeNotes[overall];
+
+  // zones
+  const zoneNames = {
+    pecho:'Pecho', cintura:'Cintura', cadera:'Cadera', hombros:'Hombros'
+  };
+  const zoneColors = {
+    green:'#22c55e', yellow:'#f59e0b', red:'#ef4444'
+  };
+  const zoneTextColors = {
+    green:'#15803d', yellow:'#92400e', red:'#991b1b'
+  };
+
+  const container = document.getElementById('zones-container');
+  container.innerHTML = '';
+  Object.entries(deltas).forEach(([zone, delta]) => {
+    const c    = scoreZone(delta);
+    const bw   = barWidth(delta, c);
+    const el = document.createElement('div');
+    el.className = 'zone';
+    el.innerHTML = `
+      <div class="zone-name">${zoneNames[zone]}</div>
+      <div class="zone-bar"><div class="zone-fill" style="background:${zoneColors[c]}" data-w="${bw}"></div></div>
+      <div class="zone-val" style="color:${zoneTextColors[c]}">${formatDelta(delta)}</div>
+    `;
+    container.appendChild(el);
+  });
+
+  // animate bars after render
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    container.querySelectorAll('.zone-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  }));
+
+  // alert note
+  const noteEl = document.getElementById('alert-note');
+  noteEl.className = 'alert-note ' + overall;
+  const notes = {
+    green:  '✅ Esta prenda debería quedarte muy bien. Compra con confianza.',
+    yellow: '⚠️ La prenda puede funcionar pero hay una zona que ajusta. Revisá el detalle antes de comprar.',
+    red:    '🚫 Las medidas de esta prenda no coinciden con las tuyas. Te puede costar ponértela o se verá forzada.',
+  };
+  noteEl.textContent = notes[overall];
+
+  // alternatives (solo si rojo)
+  const altsSection = document.getElementById('alts-section');
+  if (overall === 'red') {
+    altsSection.style.display = 'block';
+    const isBottom = cadera > 90 || (pierna && pierna > 60);
+    const alts = isBottom ? ALTERNATIVES.bottom : ALTERNATIVES.top;
+    document.getElementById('alts-container').innerHTML = alts.map(a => `
+      <div class="alt-item">
+        <span class="alt-emoji">${a.emoji}</span>
+        <div class="alt-text">
+          <div class="alt-name">${a.name}</div>
+          <div class="alt-why">${a.why}</div>
+        </div>
+        <span class="alt-badge">✓ Verde</span>
+      </div>
+    `).join('');
+  } else {
+    altsSection.style.display = 'none';
+  }
+
+  document.getElementById('result-screen').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('form-screen').style.display  = 'block';
+  document.getElementById('dot-1').className = 'step-dot active';
+  document.getElementById('dot-2').className = 'step-dot';
+  document.getElementById('step-label').textContent = 'Paso 1 de 2';
+}
+
+// enter key en campos
+document.addEventListener('keypress', e => {
+  if (e.key === 'Enter' && document.getElementById('form-screen').style.display !== 'none') {
+    calcular();
+  }
+});
+</script>
 </body>
 </html>
