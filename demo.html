@@ -1,122 +1,558 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo FitCheck - Mercado Libre</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8fafc;
-            color: #333;
-            margin: 0;
-            padding: 40px 16px;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 32px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-        .logo {
-            font-weight: 800;
-            color: #2b6cb0;
-            font-size: 1.8rem;
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .logo span {
-            color: #2c3e50;
-        }
-        h1 {
-            font-size: 1.1rem;
-            color: #4a5568;
-            margin-top: 0;
-            margin-bottom: 28px;
-            font-weight: 500;
-        }
-        .video-wrapper {
-            position: relative;
-            padding-top: 56.25%; /* Relación de aspecto 16:9 */
-            margin-bottom: 24px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-            background-color: #000;
-        }
-        video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            outline: none;
-        }
-        .description {
-            font-size: 0.95rem;
-            color: #2c3e50;
-            line-height: 1.6;
-            text-align: left;
-            margin-bottom: 28px;
-            background: #f1f5f9;
-            padding: 16px;
-            border-radius: 6px;
-        }
-        .description strong {
-            color: #2b6cb0;
-        }
-        .button {
-            display: inline-block;
-            background-color: #2b6cb0;
-            color: white;
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            transition: background-color 0.2s;
-            box-shadow: 0 2px 4px rgba(43,108,176, 0.3);
-        }
-        .button:hover {
-            background-color: #2c5282;
-        }
-        .footer {
-            margin-top: 24px;
-            font-size: 0.75rem;
-            color: #718096;
-            border-top: 1px solid #edf2f7;
-            padding-top: 16px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo FitCheck — Semáforo de tallas en acción</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111010;
+  --bg: #faf8f5;
+  --warm: #f2ede6;
+  --green: #1a6b3c;
+  --green-light: #d4eddf;
+  --green-vivid: #22c55e;
+  --yellow-vivid: #f59e0b;
+  --red-vivid: #ef4444;
+  --muted: #7a7570;
+  --border: rgba(17,16,16,0.1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+  animation: fadeUp 0.5s ease both;
+}
+.logo-badge {
+  font-size: 0.38em;
+  background: var(--green);
+  color: white;
+  padding: 0.15em 0.5em;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  vertical-align: middle;
+}
+.tagline {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.5s ease 0.1s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MAIN CARD ── */
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  animation: fadeUp 0.6s ease 0.15s both;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+.card-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* ── BROWSER MOCKUP ── */
+.browser {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.browser-bar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0.55rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.b-dots { display:flex; gap:4px; }
+.b-dot  { width:8px; height:8px; border-radius:50%; }
+.b-dot:nth-child(1) { background:#ff5f57; }
+.b-dot:nth-child(2) { background:#febc2e; }
+.b-dot:nth-child(3) { background:#28c840; }
+.b-url {
+  flex:1;
+  background:#f4f4f4;
+  border-radius:5px;
+  padding:0.2rem 0.7rem;
+  font-size:0.66rem;
+  color:#999;
+  text-align:center;
+  font-family:monospace;
+}
+
+/* ── SIMULATED PRODUCT PAGE ── */
+.product-page {
+  padding: 1rem 1.2rem 1.2rem;
+  background: white;
+}
+.pp-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.pp-img {
+  width: 90px;
+  height: 110px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #e8f4ed, #c8e6d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+.pp-info { flex: 1; padding-top: 0.3rem; }
+.pp-brand { font-size: 0.6rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; }
+.pp-name  { font-weight: 700; font-size: 0.95rem; margin: 0.2rem 0; }
+.pp-price { font-size: 1rem; color: var(--ink); font-family: 'Playfair Display', serif; }
+.pp-sizes { display:flex; gap:0.3rem; margin-top: 0.5rem; }
+.pp-sz {
+  width:26px; height:26px; border-radius:6px;
+  border:1px solid #e0e0e0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.6rem; color:#666; cursor:pointer;
+  transition: all 0.2s;
+}
+.pp-sz.sel { background:var(--ink); color:white; border-color:var(--ink); }
+
+/* ── THE WIDGET ANIMATION AREA ── */
+.widget-area { position: relative; }
+
+/* estado 0: placeholder gris */
+.widget-placeholder {
+  height: 38px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  color: #ccc;
+  letter-spacing: 0.05em;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+/* los 3 estados del widget - todos ocultos por defecto */
+.widget-state {
+  display: none;
+  flex-direction: column;
+  gap: 0.6rem;
+  opacity: 0;
+  animation: none;
+}
+.widget-state.visible {
+  display: flex;
+  animation: stateIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes stateIn {
+  from { opacity:0; transform: translateY(6px) scale(0.97); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* pill */
+.fc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  border: 1.5px solid;
+  width: fit-content;
+  cursor: pointer;
+}
+.fc-pill.green  { background:#f0fdf4; border-color:#86efac; color:#15803d; }
+.fc-pill.yellow { background:#fffbeb; border-color:#fcd34d; color:#92400e; }
+.fc-pill.red    { background:#fff1f2; border-color:#fca5a5; color:#991b1b; }
+
+.fc-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.fc-pill.green  .fc-dot { background:var(--green-vivid); animation:pulse 2s ease infinite; }
+.fc-pill.yellow .fc-dot { background:var(--yellow-vivid); }
+.fc-pill.red    .fc-dot { background:var(--red-vivid); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* mini panel */
+.fc-panel {
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+.fc-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+.fc-score {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.8rem;
+  flex-shrink: 0;
+  border: 2.5px solid;
+}
+.fc-score.green  { background:#f0fdf4; border-color:#22c55e; color:#15803d; }
+.fc-score.yellow { background:#fffbeb; border-color:#fcd34d; color:#92400e; }
+.fc-score.red    { background:#fff1f2; border-color:#fca5a5; color:#991b1b; }
+
+.fc-panel-title { font-weight: 700; font-size: 0.78rem; color:var(--ink); }
+.fc-panel-sub   { font-size: 0.62rem; color:var(--muted); margin-top:0.1rem; }
+.fc-zones { display:flex; flex-direction:column; gap:0.38rem; }
+.fc-zone  { display:flex; align-items:center; gap:0.6rem; }
+.fc-zname { font-size:0.63rem; color:var(--muted); width:52px; flex-shrink:0; }
+.fc-bar   { flex:1; height:4px; background:#f0f0f0; border-radius:99px; overflow:hidden; }
+.fc-fill  { height:100%; border-radius:99px; }
+.fc-zval  { font-size:0.6rem; font-weight:700; width:44px; text-align:right; }
+
+/* ── SEMAFORO INDICATOR ── */
+.sem-bar {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+.sem-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s;
+  opacity: 0.45;
+}
+.sem-item.active { opacity: 1; transform: translateY(-2px); }
+.sem-item.green.active  { background:#f0fdf4; border-color:#86efac; }
+.sem-item.yellow.active { background:#fffbeb; border-color:#fcd34d; }
+.sem-item.red.active    { background:#fff1f2; border-color:#fca5a5; }
+
+.sem-circle {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+}
+.sem-item.green  .sem-circle { background:var(--green-vivid); }
+.sem-item.yellow .sem-circle { background:var(--yellow-vivid); }
+.sem-item.red    .sem-circle { background:var(--red-vivid); }
+
+.sem-lbl { font-size: 0.62rem; color:var(--muted); text-align:center; font-weight: 500; }
+.sem-item.active .sem-lbl { color: var(--ink); }
+
+/* ── CTA ── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.6rem;
+}
+.btn-primary:hover { background:#2a2a2a; transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,0.15); }
+
+.btn-outline {
+  display: block;
+  width: 100%;
+  background: none;
+  color: var(--ink);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem;
+  font-size: 0.84rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--ink); }
+
+.desc-box {
+  background: var(--warm);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.8rem;
+  color: var(--ink);
+  line-height: 1.65;
+  margin-bottom: 1.3rem;
+}
+.desc-box strong { color: var(--green); }
+
+.footer-note {
+  text-align: center;
+  font-size: 0.65rem;
+  color: #ccc;
+  margin-top: 1.5rem;
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo">Fit<span>Check</span></div>
-    <h1>Solución de recomendación de talles y calce</h1>
-    
-    <div class="video-wrapper">
-        <video controls poster="" width="100%">
-            <source src="http://googleusercontent.com/generated_video_content/5060747683494887360" type="video/mp4">
-            Tu navegador no soporta el formato de video.
-        </video>
-    </div>
-    
-    <div class="description">
-        En este video se observa el funcionamiento de la herramienta en una tienda online. El sistema utiliza medidas corporales detalladas (incluyendo el ancho de pierna y altura), proporcionando una advertencia de semáforo verde cuando el usuario selecciona el talle que le quedará perfecto.
-    </div>
+<div class="logo">FitCheck<span class="logo-badge">beta</span></div>
+<div class="tagline">Solución de recomendación de talles y calce para tiendas online</div>
 
-    <a href="https://jm33ar.github.io/Checkfitapp/api/widget.html" class="button" target="_blank">Probar el widget en vivo</a>
-    
-    <div class="footer">
-        &copy; 2026 FitCheck. Todos los derechos reservados.
+<div class="card">
+  <div class="card-title">Así lo ve tu cliente</div>
+  <p class="card-sub">Elegí un estado del semáforo para ver cómo aparece el widget en la página del producto.</p>
+
+  <!-- SEMAFORO SELECTOR -->
+  <div class="sem-bar">
+    <div class="sem-item green active" onclick="showState('green')">
+      <div class="sem-circle"></div>
+      <div class="sem-lbl">Te queda<br>perfecto</div>
     </div>
+    <div class="sem-item yellow" onclick="showState('yellow')">
+      <div class="sem-circle"></div>
+      <div class="sem-lbl">Ojo con<br>una zona</div>
+    </div>
+    <div class="sem-item red" onclick="showState('red')">
+      <div class="sem-circle"></div>
+      <div class="sem-lbl">No es<br>tu talla</div>
+    </div>
+  </div>
+
+  <!-- BROWSER MOCKUP -->
+  <div class="browser">
+    <div class="browser-bar">
+      <div class="b-dots">
+        <div class="b-dot"></div>
+        <div class="b-dot"></div>
+        <div class="b-dot"></div>
+      </div>
+      <div class="b-url">tienda.com/camisa-oxford</div>
+    </div>
+    <div class="product-page">
+      <div class="pp-header">
+        <div class="pp-img">👔</div>
+        <div class="pp-info">
+          <div class="pp-brand">BlueFit</div>
+          <div class="pp-name">Camisa Oxford Slim Fit</div>
+          <div class="pp-price">$850</div>
+          <div class="pp-sizes">
+            <div class="pp-sz">XS</div>
+            <div class="pp-sz sel">M</div>
+            <div class="pp-sz">L</div>
+            <div class="pp-sz">XL</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WIDGET STATES -->
+      <div class="widget-area">
+        <div class="widget-placeholder" id="placeholder">cargando FitCheck…</div>
+
+        <!-- VERDE -->
+        <div class="widget-state" id="state-green">
+          <div class="fc-pill green">
+            <div class="fc-dot"></div>
+            Te queda perfecto · Talla M ▾
+          </div>
+          <div class="fc-panel">
+            <div class="fc-panel-head">
+              <div class="fc-score green">92%</div>
+              <div>
+                <div class="fc-panel-title">Excelente ajuste ✓</div>
+                <div class="fc-panel-sub">El elastano da margen extra</div>
+              </div>
+            </div>
+            <div class="fc-zones">
+              <div class="fc-zone">
+                <span class="fc-zname">Pecho</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:90%;background:#22c55e"></div></div>
+                <span class="fc-zval" style="color:#15803d">+2 cm</span>
+              </div>
+              <div class="fc-zone">
+                <span class="fc-zname">Hombros</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:96%;background:#22c55e"></div></div>
+                <span class="fc-zval" style="color:#15803d">Exacto</span>
+              </div>
+              <div class="fc-zone">
+                <span class="fc-zname">Manga</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:85%;background:#22c55e"></div></div>
+                <span class="fc-zval" style="color:#15803d">+1 cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AMARILLO -->
+        <div class="widget-state" id="state-yellow">
+          <div class="fc-pill yellow">
+            <div class="fc-dot"></div>
+            Hombros un poco anchos · ver detalle ▾
+          </div>
+          <div class="fc-panel">
+            <div class="fc-panel-head">
+              <div class="fc-score yellow">71%</div>
+              <div>
+                <div class="fc-panel-title">Ajuste aceptable ⚠</div>
+                <div class="fc-panel-sub">Una zona necesita atención</div>
+              </div>
+            </div>
+            <div class="fc-zones">
+              <div class="fc-zone">
+                <span class="fc-zname">Pecho</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:85%;background:#22c55e"></div></div>
+                <span class="fc-zval" style="color:#15803d">OK</span>
+              </div>
+              <div class="fc-zone">
+                <span class="fc-zname">Hombros</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:42%;background:#f59e0b"></div></div>
+                <span class="fc-zval" style="color:#92400e">+4 cm</span>
+              </div>
+              <div class="fc-zone">
+                <span class="fc-zname">Manga</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:80%;background:#22c55e"></div></div>
+                <span class="fc-zval" style="color:#15803d">+1 cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROJO -->
+        <div class="widget-state" id="state-red">
+          <div class="fc-pill red">
+            <div class="fc-dot"></div>
+            No es tu talla · ver alternativas ▾
+          </div>
+          <div class="fc-panel">
+            <div class="fc-panel-head">
+              <div class="fc-score red">38%</div>
+              <div>
+                <div class="fc-panel-title">No te va a quedar ✗</div>
+                <div class="fc-panel-sub">Dos zonas con problema</div>
+              </div>
+            </div>
+            <div class="fc-zones">
+              <div class="fc-zone">
+                <span class="fc-zname">Cintura</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:18%;background:#ef4444"></div></div>
+                <span class="fc-zval" style="color:#991b1b">−6 cm</span>
+              </div>
+              <div class="fc-zone">
+                <span class="fc-zname">Cadera</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:22%;background:#ef4444"></div></div>
+                <span class="fc-zval" style="color:#991b1b">−5 cm</span>
+              </div>
+              <div class="fc-zone">
+                <span class="fc-zname">Muslo</span>
+                <div class="fc-bar"><div class="fc-fill" style="width:15%;background:#ef4444"></div></div>
+                <span class="fc-zval" style="color:#991b1b">−4 cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /widget-area -->
+    </div><!-- /product-page -->
+  </div><!-- /browser -->
+
+  <div class="desc-box">
+    El cliente ingresa sus medidas <strong>una sola vez</strong>. FitCheck las recuerda en toda la tienda y muestra el semáforo automáticamente en cada prenda.
+  </div>
+
+  <a class="btn-primary" href="https://jm33ar.github.io/Checkfitapp/api/widget.html" target="_blank">
+    Probar el widget con mis medidas →
+  </a>
+  <a class="btn-outline" href="https://checkfitapp.vercel.app/#registro" target="_blank">
+    Instalar en mi tienda — acceso beta gratuito
+  </a>
+
+  <div class="footer-note">© 2026 FitCheck · checkfitapp.vercel.app</div>
 </div>
 
+<script>
+let currentState = 'green';
+
+function showState(state) {
+  // update selector
+  document.querySelectorAll('.sem-item').forEach(el => el.classList.remove('active'));
+  document.querySelector('.sem-item.' + state).classList.add('active');
+
+  // hide all states
+  document.querySelectorAll('.widget-state').forEach(el => {
+    el.classList.remove('visible');
+    el.style.display = 'none';
+  });
+  document.getElementById('placeholder').style.display = 'none';
+
+  // show selected
+  const el = document.getElementById('state-' + state);
+  el.style.display = 'flex';
+  requestAnimationFrame(() => el.classList.add('visible'));
+
+  currentState = state;
+}
+
+// auto-start
+window.addEventListener('load', () => {
+  setTimeout(() => showState('green'), 400);
+
+  // auto-cycle for first impression
+  const sequence = ['green','yellow','red','green'];
+  let i = 0;
+  const cycle = setInterval(() => {
+    i++;
+    if (i >= sequence.length) { clearInterval(cycle); return; }
+    showState(sequence[i]);
+  }, 2200);
+});
+</script>
 </body>
-</html>
+</html>*
