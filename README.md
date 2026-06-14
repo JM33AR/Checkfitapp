@@ -4,6 +4,10 @@
 🚀 El Problema y la Solución
 En el comercio electrónico de indumentaria, uno de los mayores dolores de cabeza (tanto para el usuario como para las tiendas) es la incertidumbre con los talles, lo que deriva en carritos abandonados o altas tasas de devolución física.
 
+## Preview
+
+![FitCheck Preview](screenshot.png)
+
 FitCheck resuelve esto de forma intuitiva. A través de un widget interactivo, el usuario ingresa sus medidas básicas y el sistema procesa la información devolviendo una recomendación instantánea basada en un código de colores (tipo semáforo):
 
 🟢 Verde: Talle ideal, calce óptimo.
