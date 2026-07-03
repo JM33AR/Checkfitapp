@@ -17,7 +17,6 @@ FitCheck resuelve esto de forma intuitiva. A través de un widget interactivo, e
 🔴 Rojo: No recomendado.
 
 💻 Stack Tecnológico
-(Acá completá con las tecnologías reales que usaste, te pongo un ejemplo estándar)
 
 Frontend: HTML5, CSS3, JavaScript (ES6+) / React
 
@@ -33,13 +32,8 @@ Lógica de Negocio Adaptable: El algoritmo calcula de forma dinámica la compati
 Landing Page de Conversión: Creación de una página de aterrizaje optimizada, con un diseño limpio y profesional, enfocada en mostrar los beneficios del producto B2B.
 
 🛠️ Desafíos Técnicos y Aprendizajes
-(Esto es lo que más aman leer los reclutadores en una entrevista)
 
 Desafío: Desarrollar una lógica de comparación de datos que sea precisa pero que no afecte el rendimiento de la página de carga del e-commerce.
 
-Solución: (Acá podés contar brevemente cómo estructuraste la lógica, por ejemplo: "Se implementó un script liviano en JavaScript puro que procesa las variables de manera local...").
+Solución: Se implementó un script liviano en JavaScript puro que procesa las variables de manera local.
 
-🔗 Links del Proyecto
-🌐 Landing Page en Vivo: Ver Proyecto Online (Dejé el link directo que tenías)
-
-💻 Código Fuente: Repositorio en GitHub
